@@ -22,14 +22,33 @@ public class ParenthesesSequence {
 
     // sequence = "()()" | "((((" | ")()(" | ...
     private static boolean isBalanced(String sequence) {
-        /* TODO: implement it */
+        char[] char_sequence = sequence.toCharArray();
+        if (char_sequence[0] != LEFT_PARENT && char_sequence[0] != RIGHT_PARENT) {
+            return false;
+        }
+        int counter = 0;
+        for (char ch : char_sequence) {
+            if (counter < 0) {
+                break;
+            }
+            if (ch == LEFT_PARENT) {
+                counter++;
+            } else if (ch == RIGHT_PARENT) {
+                counter--;
+            } else {
+                return false;
+            }
+        }
+        if (counter == 0) {
+            return true;
+        }
         return false;
     }
 
     public static void main(String[] args) {
-        try (BufferedReader lineReader = new BufferedReader(new InputStreamReader(System.in))) {
-            String sequence;
-            while (!QUIT.equals(sequence = lineReader.readLine())) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String sequence; // для очередной строки с консоли
+            while (!QUIT.equals(sequence = reader.readLine())) {
                 System.out.println(isBalanced(sequence) ? "YES" : "NO");
             }
         } catch (IOException e) {
