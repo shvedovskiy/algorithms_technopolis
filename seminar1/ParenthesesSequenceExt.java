@@ -30,9 +30,9 @@ public class ParenthesesSequenceExt {
     }
 
     public static void main(String[] args) {
-        try (BufferedReader lineReader = new BufferedReader(new InputStreamReader(System.in))) {
-            String sequence;
-            while (!QUIT.equals(sequence = lineReader.readLine())) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String sequence; // для очередной строки с консоли
+            while (!QUIT.equals(sequence = reader.readLine())) {
                 System.out.println(isBalanced(sequence) ? "YES" : "NO");
             }
         } catch (IOException e) {
