@@ -1,4 +1,4 @@
-package seminar1;
+package Seminar1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +6,20 @@ import java.io.InputStreamReader;
 
 /**
  * ( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) ) = 101
- * ( 1 + ( 5 * ( 4 * 5 ) ) ) ( 1 + ( 5 * 20 ) ) = 101
+ * ( 1 + ( 5 * ( 4 * 5 ) ) )
+ * ( 1 + ( 5 * 20 ) ) = 101
  * ( 1 + 100 ) = 101
+ *
+ * 1 + ( 2 + 3 ) * 4 * 5 = 101
+ * 1 + 5 * 4 * 5 = 101
+ * 1 + 5 * 20 = 101
+ * 1 + 100 = 101
+ * 20 / 4 = 5
+ * (101 - 1) / 5 = 20
  *
  * Считаем, что операции деления на ноль отсутствуют
  */
-public class Solver {
+public class SolverExt {
 
     private static final String QUIT = "q";
 
@@ -24,7 +32,6 @@ public class Solver {
 
     private static double evaluate(String[] values) {
         /* TODO: implement it */
-        // Double.valueOf(values[i])
         return 0D;
     }
 

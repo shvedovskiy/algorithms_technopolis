@@ -1,4 +1,4 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 /**
  * LIFO — Last In First Out

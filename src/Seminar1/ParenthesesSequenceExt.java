@@ -1,10 +1,13 @@
-package seminar1;
+package Seminar1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import Seminar1.collections.ArrayStack;
 
 /**
+ * Проверить скобочную последовательность на правильность — три вида скобок.
+ *
  * 1. пустая строка — правильная скобочная последовательность;
  * 2. правильная скобочная последовательность,
  *      взятая в скобки одного типа — правильная скобочная последовательность;
@@ -15,9 +18,8 @@ import java.io.InputStreamReader;
 public class ParenthesesSequenceExt {
 
     private static final String QUIT = "q";
-
-    private static final char LEFT_PAREN     = '(';
-    private static final char RIGHT_PAREN    = ')';
+    private static final char LEFT_PARENT    = '(';
+    private static final char RIGHT_PARENT   = ')';
     private static final char LEFT_BRACE     = '{';
     private static final char RIGHT_BRACE    = '}';
     private static final char LEFT_BRACKET   = '[';
@@ -25,8 +27,33 @@ public class ParenthesesSequenceExt {
 
     // sequence = "()()" | "(({}[]))[[[" | "{}" | ...
     private static boolean isBalanced(String sequence) {
-        /* TODO: implement it */
-        return false;
+        char[] char_sequence = sequence.toCharArray();
+        if (    char_sequence[0] != LEFT_PARENT  &&
+                char_sequence[0] != RIGHT_PARENT &&
+                char_sequence[0] != LEFT_BRACE   &&
+                char_sequence[0] != RIGHT_BRACE  &&
+                char_sequence[0] != LEFT_BRACKET &&
+                char_sequence[0] != RIGHT_BRACKET) {
+            return false;
+        }
+        ArrayStack<Character> brackets = new ArrayStack<>();
+        for (char ch : char_sequence) {
+            if (ch == LEFT_PARENT || ch == LEFT_BRACKET || ch == LEFT_BRACE) {
+                brackets.push(ch);
+            } else if (!brackets.isEmpty() && (ch == RIGHT_PARENT || ch == RIGHT_BRACE || ch == RIGHT_BRACKET)) {
+                char last = brackets.pop();
+                if (ch == RIGHT_BRACKET && last != LEFT_BRACKET) {
+                    return false;
+                } else if (ch == RIGHT_PARENT && last != LEFT_PARENT) {
+                    return false;
+                } else if (ch == RIGHT_BRACE && last != LEFT_BRACE) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return brackets.isEmpty();
     }
 
     public static void main(String[] args) {

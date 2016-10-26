@@ -1,18 +1,29 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 import java.util.Iterator;
 
-public class CyclicArrayQueue<Item> implements IQueue<Item> {
+public class CyclicArrayDeque<Item> implements IDeque<Item> {
 
     private Item[] elementData;
 
     @Override
-    public void enqueue(Item item) {
+    public void pushFront(Item item) {
         /* TODO: implement it */
     }
 
     @Override
-    public Item dequeue() {
+    public void pushBack(Item item) {
+        /* TODO: implement it */
+    }
+
+    @Override
+    public Item popFront() {
+        /* TODO: implement it */
+        return null;
+    }
+
+    @Override
+    public Item popBack() {
         /* TODO: implement it */
         return null;
     }

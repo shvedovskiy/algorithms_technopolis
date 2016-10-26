@@ -1,4 +1,4 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 /**
  * FIFO — First In First Out

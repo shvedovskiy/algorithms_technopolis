@@ -1,4 +1,4 @@
-package seminar1.iterators;
+package Seminar1.iterators;
 
 import java.util.Comparator;
 import java.util.Iterator;

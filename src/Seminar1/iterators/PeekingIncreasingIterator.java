@@ -1,4 +1,4 @@
-package seminar1.iterators;
+package Seminar1.iterators;
 
 public class PeekingIncreasingIterator extends IncreasingIterator implements IPeekingIterator<Integer> {
 

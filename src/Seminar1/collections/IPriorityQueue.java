@@ -1,4 +1,4 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 public interface IPriorityQueue<Key extends Comparable<Key>> extends Iterable<Key> {
 

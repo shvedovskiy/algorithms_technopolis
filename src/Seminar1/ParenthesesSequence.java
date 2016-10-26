@@ -1,4 +1,4 @@
-package seminar1;
+package Seminar1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
  *      к которой приписана слева или справа правильная скобочная последовательность
  *      — тоже правильная скобочная последовательность.
  */
-
 public class ParenthesesSequence {
     private static final String QUIT = "q";
     private static final char LEFT_PARENT = '(';
@@ -39,10 +38,7 @@ public class ParenthesesSequence {
                 return false;
             }
         }
-        if (counter == 0) {
-            return true;
-        }
-        return false;
+        return (counter == 0);
     }
 
     public static void main(String[] args) {

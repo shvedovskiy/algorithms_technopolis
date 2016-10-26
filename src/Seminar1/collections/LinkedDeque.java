@@ -1,23 +1,27 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 import java.util.Iterator;
 
-public class TwoStackQueue<Item> implements IQueue<Item> {
+public class LinkedDeque<Item> implements IDeque<Item> {
 
-    private IStack<Item> stack1;
-    private IStack<Item> stack2;
-
-    public TwoStackQueue() {
+    @Override
+    public void pushFront(Item item) {
         /* TODO: implement it */
     }
 
     @Override
-    public void enqueue(Item item) {
+    public void pushBack(Item item) {
         /* TODO: implement it */
     }
 
     @Override
-    public Item dequeue() {
+    public Item popFront() {
+        /* TODO: implement it */
+        return null;
+    }
+
+    @Override
+    public Item popBack() {
         /* TODO: implement it */
         return null;
     }
@@ -25,7 +29,7 @@ public class TwoStackQueue<Item> implements IQueue<Item> {
     @Override
     public boolean isEmpty() {
         /* TODO: implement it */
-        return true;
+        return false;
     }
 
     @Override
@@ -36,8 +40,7 @@ public class TwoStackQueue<Item> implements IQueue<Item> {
 
     @Override
     public Iterator<Item> iterator() {
-        /* TODO: implement it (optional) */
+        /* TODO: implement it */
         return null;
     }
-
 }

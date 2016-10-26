@@ -1,4 +1,4 @@
-package seminar1.collections;
+package Seminar1.collections;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -34,6 +34,13 @@ public class ArrayStack<E> implements IStack<E> {
                 shrink();
             }
             return elem;
+        }
+        return null;
+    }
+
+    public E peek() {
+        if (this.size > 0) {
+            return this.elems[this.size - 1];
         }
         return null;
     }
