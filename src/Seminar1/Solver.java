@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import Seminar1.collections.ArrayStack;
 
 /**
+ * Вычислить инфиксное арифметическое выражение — все операции в скобках.
+ *
  * ( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) ) = 101
  * ( 1 + ( 5 * ( 4 * 5 ) ) ) ( 1 + ( 5 * 20 ) ) = 101
  * ( 1 + 100 ) = 101
@@ -14,62 +16,62 @@ import Seminar1.collections.ArrayStack;
  */
 public class Solver {
     private static final String QUIT = "q";
-    private static final char LEFT_PARENT   = '(';
-    private static final char RIGHT_PARENT  = ')';
-    private static final char PLUS          = '+';
-    private static final char MINUS         = '-';
-    private static final char TIMES         = '*';
-    private static final char DIVISION      = '/';
+    private static final char LEFT_PAREN  = '(';
+    private static final char RIGHT_PAREN = ')';
+    private static final char PLUS        = '+';
+    private static final char MINUS       = '-';
+    private static final char TIMES       = '*';
+    private static final char DIVISION    = '/';
 
     private static double evaluate(String[] values) {
-        ArrayStack<String> st = new ArrayStack<>();
-        for (String ch : values) {
-            switch (ch.charAt(0)) {
-                case LEFT_PARENT:
+        ArrayStack<String> expression = new ArrayStack<>();
+        for (String token : values) {
+            switch (token.charAt(0)) {
+                case LEFT_PAREN:
                 case PLUS:
                 case MINUS:
                 case TIMES:
                 case DIVISION:
-                    st.push(ch);
+                    expression.push(token);
                     break;
-                case RIGHT_PARENT:
-                    if (st.peek().equals(String.valueOf(LEFT_PARENT))) {
+                case RIGHT_PAREN:
+                    if (expression.peek().equals(String.valueOf(LEFT_PAREN))) {
                         throw new ArithmeticException("Empty expression inside parents");
                     }
-                    double rightOperand = Double.valueOf(st.pop());
-                    String operator = st.pop();
-                    double leftOperand = Double.valueOf(st.pop());
-                    st.pop(); // left parent
-                    double res;
+                    double rightOperand = Double.valueOf(expression.pop());
+                    String operator = expression.pop();
+                    double leftOperand = Double.valueOf(expression.pop());
+                    expression.pop(); // "("
+                    double result;
                     switch (operator.charAt(0)) {
                         case TIMES:
-                            res = leftOperand * rightOperand;
+                            result = leftOperand * rightOperand;
                             break;
                         case DIVISION:
-                            res = leftOperand / rightOperand;
+                            result = leftOperand / rightOperand;
                             break;
                         case PLUS:
-                            res = leftOperand + rightOperand;
+                            result = leftOperand + rightOperand;
                             break;
                         case MINUS:
-                            res = leftOperand - rightOperand;
+                            result = leftOperand - rightOperand;
                             break;
                         default:
                             throw new ArithmeticException("Illegal operator");
                     }
-                    st.push(Double.toString(res));
+                    expression.push(Double.toString(result));
                     break;
                 default:
-                    if (ch.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+")) {
-                        st.push(ch);
+                    if (token.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+")) {
+                        expression.push(token);
                         break;
                     } else {
                         throw new NumberFormatException("Unknown symbol");
                     }
             }
         }
-        if (!st.isEmpty()) {
-            return Double.parseDouble(st.pop());
+        if (!expression.isEmpty()) {
+            return Double.parseDouble(expression.pop());
         } else {
             return -1.0;
         }
