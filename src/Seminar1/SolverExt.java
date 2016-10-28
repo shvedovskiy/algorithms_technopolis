@@ -87,9 +87,11 @@ public class SolverExt {
                     case PLUS:
                         result = leftOperand + rightOperand;
                         break;
-                    default:
+                    case MINUS:
                         result = leftOperand - rightOperand;
                         break;
+                    default:
+                        throw new ArithmeticException("Illegal operator");
                 }
                 expression.push(Double.toString(result));
             }
@@ -107,7 +109,7 @@ public class SolverExt {
             while (!QUIT.equals(sequence = lineReader.readLine())) {
                 System.out.println(evaluate(sequence.split(" ")));
             }
-        } catch (IOException e) {
+        } catch (IOException | ArithmeticException e) {
             e.printStackTrace();
         }
     }
