@@ -48,21 +48,27 @@ public class SolverExt {
 
         // Преобразование в постфиксный вид:
         for (String token : values) {
+            char charToken = token.charAt(0);
             if (token.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+")) {
                 postfixList.add(token);
-            } else if (token.charAt(0) == LEFT_PAREN) {
+            } else if (charToken == LEFT_PAREN) {
                 operators.push(token);
-            } else if (token.charAt(0) == RIGHT_PAREN) {
+            } else if (charToken == RIGHT_PAREN) {
                 String topToken = operators.pop();
                 while (topToken.charAt(0) != LEFT_PAREN) {
                     postfixList.add(topToken);
                     topToken = operators.pop();
                 }
-            } else {
+            } else if (charToken == TIMES    ||
+                       charToken == DIVISION ||
+                       charToken == PLUS     ||
+                       charToken == MINUS) {
                 while (!operators.isEmpty() && (prec.get(operators.peek()) >= prec.get(token))) {
                     postfixList.add(operators.pop());
                 }
                 operators.push(token);
+            } else {
+                throw new NumberFormatException("Unknown symbol");
             }
         }
         while (!operators.isEmpty()) {
@@ -109,7 +115,7 @@ public class SolverExt {
             while (!QUIT.equals(sequence = lineReader.readLine())) {
                 System.out.println(evaluate(sequence.split(" ")));
             }
-        } catch (IOException | ArithmeticException e) {
+        } catch (IOException | ArithmeticException | NumberFormatException e) {
             e.printStackTrace();
         }
     }
