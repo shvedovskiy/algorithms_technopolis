@@ -1,23 +1,36 @@
 package Seminar1.collections;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedQueue<Item> implements IQueue<Item> {
-
+public class LinkedQueue<E> implements IQueue<E> {
     // -> [tail -> .. -> .. -> head] ->
-    private Node<Item> head;
-    private Node<Item> tail;
-    private int size;
+    // head указывает на последний узел
+    private Node<E> head = null;
+    private Node<E> tail = null;
+    private int size = 0;
 
     @Override
-    public void enqueue(Item item) {
-        /* TODO: implement it */
+    public void enqueue(E item) {
+        Node<E> elem = new Node<>(item, null);
+        if (isEmpty()) {
+            tail = elem;
+        } else {
+            head.next = elem;
+        }
+        head = elem;
+        size++;
     }
 
     @Override
-    public Item dequeue() {
-        /* TODO: implement it */
-        return null;
+    public E dequeue() throws NoSuchElementException {
+        if (isEmpty()) {
+            throw new NoSuchElementException("No more elements");
+        }
+        E item = tail.item;
+        tail = tail.next;
+        size--;
+        return item;
     }
 
     @Override
@@ -31,35 +44,35 @@ public class LinkedQueue<Item> implements IQueue<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<E> iterator() {
         return new LinkedQueueIterator();
     }
 
-    private class LinkedQueueIterator implements Iterator<Item> {
+    private class LinkedQueueIterator implements Iterator<E> {
+        private Node<E> current = tail;
 
         @Override
         public boolean hasNext() {
-            /* TODO: implement it */
-            return false;
+            return current != head.next;
         }
 
         @Override
-        public Item next() {
-            /* TODO: implement it */
-            return null;
+        public E next() {
+            E res = current.item;
+            current = current.next;
+            return res;
         }
-
     }
 
-    private static class Node<Item> {
-        Item item;
-        Node<Item> next;
+    private static class Node<E> {
+        E item;
+        Node<E> next;
 
-        public Node(Item item) {
+        public Node(E item) {
             this.item = item;
         }
 
-        public Node(Item item, Node<Item> next) {
+        public Node(E item, Node<E> next) {
             this.item = item;
             this.next = next;
         }

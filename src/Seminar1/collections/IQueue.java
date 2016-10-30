@@ -3,11 +3,11 @@ package Seminar1.collections;
 /**
  * FIFO — First In First Out
  */
-public interface IQueue<Item> extends Iterable<Item> {
+public interface IQueue<E> extends Iterable<E> {
 
-    void enqueue(Item item);
+    void enqueue(E item);
 
-    Item dequeue();
+    E dequeue();
 
     boolean isEmpty();
 
