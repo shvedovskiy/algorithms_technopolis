@@ -12,5 +12,4 @@ public interface IQueue<E> extends Iterable<E> {
     boolean isEmpty();
 
     int size();
-
 }

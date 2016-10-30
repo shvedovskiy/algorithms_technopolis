@@ -61,11 +61,11 @@ public class ArrayStack<E> implements IStack<E> {
         changeCapacity(new_capacity);
     }
 
+    /**
+     * Если количество элементов в 4 раза меньше,
+     * то уменьшить размер стека в 2 раза
+     */
     private void shrink() {
-        /**
-         * Если количество элементов в 4 раза меньше,
-         * то уменьшить размер стека в 2 раза
-         */
         int old_capacity = this.elems.length;
         int new_capacity =  old_capacity >> 1;
         if (new_capacity >= DEFAULT_CAPACITY) { // не становиться меньше, чем задано
