@@ -9,55 +9,54 @@ public class LinkedStack<E> implements IStack<E> {
     @Override
     public void push(E item) {
         Node<E> itemnode = new Node<>(item, null);
-        if (this.size == 0) {
-            this.head = itemnode;
-            this.size = 1;
+        if (size == 0) {
+            head = itemnode;
         } else {
-            Node<E> current = this.head;
+            Node<E> current = head;
             while (current.next != null) {
                 current = current.next;
             }
             current.next = itemnode;
-            this.size++;
         }
+        size++;
     }
 
     @Override
     public E pop() {
-        if (this.size == 0) {
+        if (size == 0) {
             return null;
-        } else if (this.size == 1) {
-            E res = this.head.item;
-            this.head = null;
-            this.size--;
+        } else if (size == 1) {
+            E res = head.item;
+            head = null;
+            size--;
             return res;
         }
 
         // Найти и взять значение удаляемого узла:
-        Node<E> current = this.head;
+        Node<E> current = head;
         while (current.next != null) {
             current = current.next;
         }
         E res = current.item;
 
-        // Пройти еще раз для удаления узла (NPE при size=1):
-        Node<E> newcurrent = this.head;
+        // Пройти еще раз для удаления узла (иначе NPE при size=1):
+        Node<E> newcurrent = head;
         while(newcurrent.next != current) {
             newcurrent = newcurrent.next;
         }
         newcurrent.next = null;
-        this.size--;
+        size--;
         return res;
     }
 
     @Override
     public boolean isEmpty() {
-        return this.size == 0;
+        return size == 0;
     }
 
     @Override
     public int size() {
-        return this.size;
+        return size;
     }
 
     @Override
@@ -70,13 +69,13 @@ public class LinkedStack<E> implements IStack<E> {
 
         @Override
         public boolean hasNext() {
-            return this.current != null;
+            return current != null;
         }
 
         @Override
         public E next() {
-            E res = this.current.item;
-            this.current = this.current.next;
+            E res = current.item;
+            current = current.next;
             return res;
         }
     }

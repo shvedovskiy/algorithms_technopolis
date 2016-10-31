@@ -14,23 +14,23 @@ public class ArrayStack<E> implements IStack<E> {
 
     @SuppressWarnings("unchecked")
     public ArrayStack() {
-        this.elems = (E[]) new Object[DEFAULT_CAPACITY];
+        elems = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     @Override
     public void push(E item) {
-        if (this.size == this.elems.length) {
+        if (size == elems.length) {
             grow();
         }
-        this.elems[this.size++] = item;
+        elems[size++] = item;
     }
 
     @Override
     public E pop() {
-        if (this.size > 0) {
-            E elem = this.elems[--this.size];
-            this.elems[this.size] = null;
-            if (this.size <= (this.elems.length >> 2)) {
+        if (size > 0) {
+            E elem = elems[--size];
+            elems[size] = null;
+            if (size <= (elems.length >> 2)) {
                 shrink();
             }
             return elem;
@@ -39,24 +39,24 @@ public class ArrayStack<E> implements IStack<E> {
     }
 
     public E peek() {
-        if (this.size > 0) {
-            return this.elems[this.size - 1];
+        if (size > 0) {
+            return elems[size - 1];
         }
         return null;
     }
 
     @Override
     public boolean isEmpty() {
-        return this.size == 0;
+        return size == 0;
     }
 
     @Override
     public int size() {
-        return this.size;
+        return size;
     }
 
     private void grow() {
-        int old_capacity = this.elems.length;
+        int old_capacity = elems.length;
         int new_capacity = old_capacity + (old_capacity >> 1);
         changeCapacity(new_capacity);
     }
@@ -66,7 +66,7 @@ public class ArrayStack<E> implements IStack<E> {
      * то уменьшить размер стека в 2 раза
      */
     private void shrink() {
-        int old_capacity = this.elems.length;
+        int old_capacity = elems.length;
         int new_capacity =  old_capacity >> 1;
         if (new_capacity >= DEFAULT_CAPACITY) { // не становиться меньше, чем задано
             changeCapacity(new_capacity);
@@ -74,7 +74,7 @@ public class ArrayStack<E> implements IStack<E> {
     }
 
     private void changeCapacity(int newCapacity) {
-        this.elems = Arrays.copyOf(this.elems, newCapacity);
+        elems = Arrays.copyOf(elems, newCapacity);
     }
 
     @Override

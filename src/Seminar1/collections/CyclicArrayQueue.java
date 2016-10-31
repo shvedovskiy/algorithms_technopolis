@@ -67,13 +67,29 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
      * Если массив заполнился,
      * то увеличить его размер в полтора раз
      */
-    @SuppressWarnings("unchecked")
     private void grow() {
         int old_capacity = elems.length;
         int new_capacity = old_capacity + (old_capacity >> 1);
-        E[] new_elems = (E[]) new Object[new_capacity];
-        int size = size();
+        changeCapacity(new_capacity);
+    }
 
+    /**
+     * Если количество элементов в четыре раза меньше,
+     * то уменьшить его размер в два раза
+     */
+    private void shrink() {
+        int old_capacity = elems.length;
+        int new_capacity =  old_capacity >> 1;
+
+        if (new_capacity >= DEFAULT_CAPACITY) {
+            changeCapacity(new_capacity);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void changeCapacity(int capacity) {
+        int size = size();
+        E[] new_elems = (E[]) new Object[capacity];
         for (int i = 0; i != size; ++i) {
             new_elems[i] = elems[head];
             head = (head + 1) % elems.length;
@@ -81,28 +97,6 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
         head = 0;
         tail = size;
         elems = new_elems;
-    }
-
-    /**
-     * Если количество элементов в четыре раза меньше,
-     * то уменьшить его размер в два раза
-     */
-    @SuppressWarnings("unchecked")
-    private void shrink() {
-        int old_capacity = elems.length;
-        int new_capacity =  old_capacity >> 1;
-
-        if (new_capacity >= DEFAULT_CAPACITY) {
-            int size = size();
-            E[] new_elems = (E[]) new Object[new_capacity];
-            for (int i = 0; i != size; ++i) {
-                new_elems[i] = elems[head];
-                head = (head + 1) % elems.length;
-            }
-            head = 0;
-            tail = size;
-            elems = new_elems;
-        }
     }
 
     @Override

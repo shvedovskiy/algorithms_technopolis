@@ -47,7 +47,7 @@ public class TwoStackQueue<E> implements IQueue<E> {
 
     @Override
     public boolean isEmpty() {
-        return (size() == 0);
+        return (stack1.isEmpty() && stack2.isEmpty());
     }
 
     @Override
@@ -57,10 +57,18 @@ public class TwoStackQueue<E> implements IQueue<E> {
 
     @Override
     public Iterator<E> iterator() {
-        /*
-        stack1.iterator();
-        stack2.iterator();
-        */
-        return null;
+        return new TwoStackQueueIterator();
+    }
+
+    private class TwoStackQueueIterator implements Iterator<E>{
+        @Override
+        public boolean hasNext() {
+            return !isEmpty();
+        }
+
+        @Override
+        public E next() {
+            return dequeue();
+        }
     }
 }
