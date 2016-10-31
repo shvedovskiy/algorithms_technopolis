@@ -7,12 +7,10 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private E[] elems;
     private int head, tail;
-    private int size = 0;
 
     @SuppressWarnings("unchecked")
     public CyclicArrayQueue() {
-        elems = (E[]) new Object[DEFAULT_CAPACITY];
-        head = tail = 0;
+        this(DEFAULT_CAPACITY);
     }
 
     @SuppressWarnings("unchecked")
@@ -23,12 +21,11 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
 
     @Override
     public void enqueue(E item) {
-        if (size == elems.length) {
+        if (isFull()) {
             grow();
         }
         elems[tail] = item;
         tail = (tail + 1) % elems.length;
-        size++;
     }
 
     @Override
@@ -39,8 +36,7 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
         E elem = elems[head];
         elems[head] = null;
         head = (head + 1) % elems.length;
-        size--;
-        if (this.size <= (this.elems.length >> 2)) {
+        if (size() <= (elems.length >> 2)) {
             shrink();
         }
         return elem;
@@ -48,12 +44,23 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
 
     @Override
     public boolean isEmpty() {
-        return (size == 0);
+        return (tail == head);
+    }
+
+    protected boolean isFull() {
+        int diff = tail - head;
+        if (diff == -1 || diff == (elems.length - 1)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public int size() {
-        return size;
+        if (tail > head) {
+            return tail - head;
+        }
+        return elems.length - head + tail;
     }
 
     /**
@@ -65,6 +72,8 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
         int old_capacity = elems.length;
         int new_capacity = old_capacity + (old_capacity >> 1);
         E[] new_elems = (E[]) new Object[new_capacity];
+        int size = size();
+
         for (int i = 0; i != size; ++i) {
             new_elems[i] = elems[head];
             head = (head + 1) % elems.length;
@@ -72,7 +81,6 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
         head = 0;
         tail = size;
         elems = new_elems;
-        System.out.println("\nGrow!");
     }
 
     /**
@@ -83,7 +91,9 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
     private void shrink() {
         int old_capacity = elems.length;
         int new_capacity =  old_capacity >> 1;
+
         if (new_capacity >= DEFAULT_CAPACITY) {
+            int size = size();
             E[] new_elems = (E[]) new Object[new_capacity];
             for (int i = 0; i != size; ++i) {
                 new_elems[i] = elems[head];
@@ -92,7 +102,6 @@ public class CyclicArrayQueue<E> implements IQueue<E> {
             head = 0;
             tail = size;
             elems = new_elems;
-            System.out.println("\nShrink!");
         }
     }
 
