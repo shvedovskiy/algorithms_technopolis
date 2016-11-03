@@ -44,7 +44,7 @@ public class SolverExt {
 
         ArrayStack<String> operators = new ArrayStack<>();   // операторы при преобразовании в постфиксный вид
         LinkedList<String> postfixList = new LinkedList<>(); // постфиксный вид
-        ArrayStack<String> expression = new ArrayStack<>();  // для вычисления постфиксного выражения
+        ArrayStack<Double> expression = new ArrayStack<>();  // для вычисления постфиксного выражения
 
         // Преобразование в постфиксный вид:
         for (String token : values) {
@@ -78,32 +78,30 @@ public class SolverExt {
         // Решение постфиксного выражения:
         for (String token : postfixList) {
             if (token.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+")) {
-                expression.push(token);
+                expression.push(Double.parseDouble(token));
             } else {
-                double rightOperand = Double.parseDouble(expression.pop());
-                double leftOperand = Double.parseDouble(expression.pop());
-                double result;
+                double rightOperand = expression.pop();
+                double leftOperand = expression.pop();
                 switch (token.charAt(0)) {
                     case TIMES:
-                        result = leftOperand * rightOperand;
+                        expression.push(leftOperand * rightOperand);
                         break;
                     case DIVISION:
-                        result = leftOperand / rightOperand;
+                        expression.push(leftOperand / rightOperand);
                         break;
                     case PLUS:
-                        result = leftOperand + rightOperand;
+                        expression.push(leftOperand + rightOperand);
                         break;
                     case MINUS:
-                        result = leftOperand - rightOperand;
+                        expression.push(leftOperand - rightOperand);
                         break;
                     default:
                         throw new ArithmeticException("Illegal operator");
                 }
-                expression.push(Double.toString(result));
             }
         }
         if (!expression.isEmpty()) {
-            return Double.parseDouble(expression.pop());
+            return expression.pop();
         } else {
             return -1.0;
         }
