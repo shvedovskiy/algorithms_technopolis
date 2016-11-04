@@ -71,7 +71,7 @@ public class heap {
             int i = 1;
             while (hasLeftChild(i)) {
                 int smallerChild = i * 2;
-                if (hasRightChild(i) && (elems[i * 2].compareTo(elems[i * 2 + 1]) < 0)) {
+                if (hasRightChild(i) && (elems[i * 2].compareTo(elems[i * 2 + 1]) > 0)) {
                     smallerChild = i * 2 + 1;
                 }
                 if (elems[i].compareTo(elems[smallerChild]) < 0) {
