@@ -1,4 +1,4 @@
-package Seminar1.collections;
+package Seminars.first.collections;
 
 /**
  * LIFO + FIFO = Last/First In First Out

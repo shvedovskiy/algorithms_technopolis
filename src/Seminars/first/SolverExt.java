@@ -1,10 +1,12 @@
-package Seminar1;
+package Seminars.first;
+
+import Seminars.first.collections.ArrayStack;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-import Seminar1.collections.ArrayStack;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 
 /**

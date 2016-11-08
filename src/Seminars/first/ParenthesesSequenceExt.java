@@ -1,9 +1,10 @@
-package Seminar1;
+package Seminars.first;
+
+import Seminars.first.collections.ArrayStack;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import Seminar1.collections.ArrayStack;
 
 /**
  * Проверить скобочную последовательность на правильность — три вида скобок.

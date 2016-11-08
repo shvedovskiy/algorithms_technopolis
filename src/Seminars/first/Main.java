@@ -1,10 +1,6 @@
-package Seminar1;
+package Seminars.first;
 
-import Seminar1.collections.IQueue;
-import Seminar1.collections.IStack;
-import Seminar1.collections.LinkedQueue;
-import Seminar1.collections.LinkedStack;
-import Seminar1.collections.TwoStackQueue;
+import Seminars.first.collections.*;
 
 public class Main {
 

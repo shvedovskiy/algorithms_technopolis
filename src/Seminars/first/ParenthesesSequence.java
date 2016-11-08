@@ -1,4 +1,4 @@
-package Seminar1;
+package Seminars.first;
 
 import java.io.BufferedReader;
 import java.io.IOException;
