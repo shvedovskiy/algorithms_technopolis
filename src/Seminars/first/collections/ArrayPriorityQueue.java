@@ -11,18 +11,20 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
     @SuppressWarnings("unchecked")
     public ArrayPriorityQueue() {
         elems = (Key[]) new Comparable[DEFAULT_CAPACITY];
+        size = -1;
     }
 
     @SuppressWarnings("unchecked")
     public ArrayPriorityQueue(Comparator<Key> comparator) {
         this.comparator = comparator;
         elems = (Key[]) new Comparable[DEFAULT_CAPACITY];
+        size = -1;
     }
 
     @SuppressWarnings("unchecked")
     public ArrayPriorityQueue(Key[] arr) {
-        elems = arr;
-        size = elems.length - 1;
+        elems = Arrays.copyOf(arr, arr.length);
+        size = arr.length - 1;
         for (int i = 0; i != size / 2; ++i) {
             siftDown();
         }
@@ -30,27 +32,27 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
 
     @Override
     public void add(Key key) {
-        if (size >= elems.length - 1) {
+        size++;
+        if (size == elems.length) {
             grow();
         }
-        size++;
-        int i = size;
-        elems[i] = key;
+        elems[size] = key;
         siftUp();
+
     }
 
     @Override
     public Key peek() {
         if (isEmpty()) {
-            throw new IllegalStateException();
+            return null;
         }
-        return elems[1];
+        return elems[0];
     }
 
     @Override
     public Key extractMin() {
         Key res = peek();
-        elems[1] = elems[size];
+        elems[0] = elems[size];
         elems[size] = null;
         size--;
         siftDown();
@@ -62,7 +64,7 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return elems[0] == null;
     }
 
     @Override
@@ -72,21 +74,21 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
 
     private void siftUp() {
         int i = size;
-        while (i > 1 && greater(i / 2, i)) {
+        while (i >= 1 && greater(parent(i), i)) {
             // while i has parent and parent greater than i
-            swap(i, i / 2);
-            i = i / 2;
+            swap(i, parent(i));
+            i = parent(i);
         }
     }
 
     private void siftDown() {
-        int i = 1;
-        while (i * 2 <= size) {
+        int i = 0;
+        while (leftChild(i) <= size) {
             // while i has left child
-            int smallerChildIndex = i * 2;
-            if ((i * 2 + 1 <= size) && greater(i * 2, i * 2 + 1)) {
+            int smallerChildIndex = leftChild(i);
+            if ((rightChild(i) <= size) && greater(leftChild(i), rightChild(i))) {
                 // i has right child and right child smaller than left child
-                smallerChildIndex = i * 2 + 1;
+                smallerChildIndex = rightChild(i);
             }
             if (greater(i, smallerChildIndex)) {
                 swap(i, smallerChildIndex);
@@ -127,7 +129,18 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
         elems[j] = tmp;
     }
 
-    @Override
+    private int parent(int index) {
+        return (index - 1) / 2;
+    }
+
+    private int leftChild(int index) {
+        return index * 2 + 1;
+    }
+
+    private int rightChild(int index) {
+        return index * 2 + 2;
+    }
+
     public Iterator<Key> iterator() {
         return new ArrayPriorityQueueIterator();
     }
