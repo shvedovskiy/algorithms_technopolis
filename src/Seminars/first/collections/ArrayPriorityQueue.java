@@ -92,10 +92,10 @@ public class ArrayPriorityQueue<Key extends Comparable<Key>> implements IPriorit
             }
             if (greater(i, smallerChildIndex)) {
                 swap(i, smallerChildIndex);
+                i = smallerChildIndex;
             } else {
                 break;
             }
-            i = smallerChildIndex;
         }
     }
 

@@ -14,8 +14,12 @@ public class InsertionSort {
             E tmp = arr[i];
             int j;
             // найдём место вставки и сдвинем все элементы разом:
-            for (j = i - 1; j >= 0 && tmp.compareTo(arr[j]) < 0; --j) {
-                arr[j + 1] = arr[j];
+            for (j = i - 1; j >= 0; --j) {
+                if (tmp.compareTo(arr[j]) < 0) {
+                    arr[j + 1] = arr[j];
+                } else {
+                    break;
+                }
             }
             arr[j + 1] = tmp;
         }
