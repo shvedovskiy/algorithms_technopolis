@@ -32,17 +32,6 @@ public class revision {
         out.append("" + min1 + " " + min2);
     }
 
-    private static int gcd(int a, int b) {
-        while (a != 0 && b != 0) {
-            if (a > b) {
-                a %= b;
-            } else {
-                b %= a;
-            }
-        }
-        return a + b;
-    }
-
     public void run() {
         try {
             in = new FastScanner(new File("input.txt"));
@@ -79,10 +68,6 @@ public class revision {
 
         int nextInt() {
             return Integer.parseInt(next());
-        }
-
-        boolean hasNext() {
-            return (st != null && st.hasMoreTokens());
         }
     }
 

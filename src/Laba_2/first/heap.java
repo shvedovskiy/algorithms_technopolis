@@ -8,21 +8,21 @@ public class heap {
     PrintWriter out;
 
     public void solve() throws IOException {
-        Heap<Long> h = new Heap<>();
+        Heap h = new Heap();
         int n = in.nextInt();
         for (int i = 0; i != n; ++i) {
             if (in.nextInt() == 0) {
                 h.add(in.nextLong());
             } else {
-                out.append(h.remove() + "\n");
+                out.append(h.extractMax() + "\n");
             }
         }
     }
 
     public void run() {
         try {
-            in = new FastScanner(new File("/Users/user/Documents/Учеба/POLIS/ALGO/Seminars/src/Laba_2/first/input.txt"));
-            out = new PrintWriter(new File("/Users/user/Documents/Учеба/POLIS/ALGO/Seminars/src/Laba_2/first/output.txt"));
+            in = new FastScanner(new File("input.txt"));
+            out = new PrintWriter(new File("output.txt"));
             solve();
             out.close();
         } catch (IOException e) {
@@ -30,79 +30,112 @@ public class heap {
         }
     }
 
-    private class Heap<E extends Comparable<E>> {
-        private final int DEFAULT_CAPACITY = 10;
-        private E[] elems;
+    private class Heap {
+        private static final int DEFAULT_CAPACITY = 10;
+        private long[] elems;
         private int size;
 
-        @SuppressWarnings("unchecked")
-        Heap() {
-            elems = (E[]) new Comparable[DEFAULT_CAPACITY];
-            size = 0;
+        public Heap() {
+            elems = new long[DEFAULT_CAPACITY];
+            size = -1;
         }
 
-        void add(E item) {
-            if (size >= elems.length - 1) {
+        public void add(long key) {
+            size++;
+            if (size == elems.length) {
                 grow();
             }
-            size++;
-            elems[size] = item;
+            elems[size] = key;
             siftUp();
+
         }
 
-        E remove() {
-            E elem = elems[1];
-            elems[1] = elems[size];
-            elems[size] = null;
+        public long peek() {
+            return elems[0];
+        }
+
+        public long extractMax() {
+            long res = peek();
+            elems[0] = elems[size];
+            elems[size] = 0;
             size--;
             siftDown();
-            return elem;
+            if (size <= (elems.length >> 2)) {
+                shrink();
+            }
+            return res;
+        }
+
+        public boolean isEmpty() {
+            return size < 0;
+        }
+
+        public int size() {
+            return size;
         }
 
         private void siftUp() {
             int i = size;
-            while (hasParent(i) && (elems[i / 2].compareTo(elems[i]) < 0)) {
-                swap(i, i / 2);
-                i = i / 2;
+            while (i >= 1 && greater(i, parent(i))) {
+                swap(i, parent(i));
+                i = parent(i);
             }
         }
 
         private void siftDown() {
-            int i = 1;
-            while (hasLeftChild(i)) {
-                int smallerChild = i * 2;
-                if (hasRightChild(i) && (elems[i * 2].compareTo(elems[i * 2 + 1]) > 0)) {
-                    smallerChild = i * 2 + 1;
+            int i = 0;
+            while (leftChild(i) <= size) {
+                int greaterChildIndex = leftChild(i);
+                if ((rightChild(i) <= size) && greater(rightChild(i), leftChild(i))) {
+                    greaterChildIndex = rightChild(i);
                 }
-                if (elems[i].compareTo(elems[smallerChild]) < 0) {
-                    swap(i, smallerChild);
+                if (greater(greaterChildIndex, i)) {
+                    swap(i, greaterChildIndex);
+                    i = greaterChildIndex;
                 } else {
                     break;
                 }
-                i = smallerChild;
             }
         }
 
-        private boolean hasParent(int i) {
-            return i > 1;
-        }
-
-        private boolean hasLeftChild(int i) {
-            return i * 2 <= size;
-        }
-
-        private boolean hasRightChild(int i) {
-            return i * 2 + 1 <= size;
-        }
-
         private void grow() {
-            Arrays.copyOf(elems, elems.length * 2);
+            int old_capacity = elems.length;
+            int new_capacity = old_capacity + (old_capacity >> 1);
+            changeCapacity(new_capacity);
         }
 
-        private void swap(int i1, int i2) {
-            E tmp = elems[i1];
-            elems[i1] = elems[i2];
-            elems[i2] = tmp;
+        private void shrink() {
+            int old_capacity = elems.length;
+            int new_capacity = old_capacity >> 1;
+            if (new_capacity >= DEFAULT_CAPACITY) {
+                changeCapacity(new_capacity);
+            }
+        }
+
+        private void changeCapacity(int newCapacity) {
+            elems = Arrays.copyOf(elems, newCapacity);
+        }
+
+        private boolean greater(int i, int j) {
+            return elems[i] > elems[j];
+        }
+
+        private void swap(int i, int j) {
+            long tmp = elems[i];
+            elems[i] = elems[j];
+            elems[j] = tmp;
+        }
+
+        private int parent(int index) {
+            return (index - 1) / 2;
+        }
+
+        private int leftChild(int index) {
+            return index * 2 + 1;
+        }
+
+        private int rightChild(int index) {
+            return index * 2 + 2;
         }
     }
 
