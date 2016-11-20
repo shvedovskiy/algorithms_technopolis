@@ -33,12 +33,4 @@ public class BubbleSort {
             i++;
         } while (changed);
     }
-
-    public static void main(String[] args) {
-        Integer[] arr = new Integer[]{4, 3, 8, 9, 2, 7, 5, 1, 6, 0};
-        bubbleSort(arr);
-        for (Integer i : arr) {
-            System.out.print(i + " ");
-        }
-    }
 }

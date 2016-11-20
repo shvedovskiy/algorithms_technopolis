@@ -1,4 +1,4 @@
-package Lections.third;
+package Lections.fourth;
 
 public class HeapSort {
     /**
@@ -47,14 +47,6 @@ public class HeapSort {
             } else {
                 return;
             }
-        }
-    }
-
-    public static void main(String[] args) {
-        Integer[] arr = new Integer[]{4, 1, 4, 8, 6, 6, 5};
-        heapSort(arr);
-        for (int i = 0; i != arr.length; ++i) {
-            System.out.print(arr[i] + " ");
         }
     }
 }

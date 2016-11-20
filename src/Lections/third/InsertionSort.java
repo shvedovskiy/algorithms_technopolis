@@ -24,12 +24,4 @@ public class InsertionSort {
             arr[j + 1] = tmp;
         }
     }
-
-    public static void main(String[] args) {
-        Integer[] arr = new Integer[]{4, 65, 2, -31, 0, 99, 2, 83, 782, 1};
-        insertionSort(arr);
-        for (Integer i : arr) {
-            System.out.print(i + " ");
-        }
-    }
 }

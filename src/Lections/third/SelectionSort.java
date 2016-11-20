@@ -21,12 +21,4 @@ public class SelectionSort {
             arr[smallest] = tmp;
         }
     }
-
-    public static void main(String[] args) {
-        Integer[] arr = new Integer[]{4, 65, 2, -31, 0, 99, 2, 83, 782, 1};
-        selectionSort(arr);
-        for (Integer i : arr) {
-            System.out.print(i + " ");
-        }
-    }
 }
