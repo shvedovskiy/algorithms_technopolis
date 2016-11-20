@@ -3,7 +3,7 @@ package Laba_2.second;
 import java.util.*;
 import java.io.*;
 
-public class quick_heapsort {
+public class heap_quicksort {
     FastScanner in;
     PrintWriter out;
 
@@ -165,6 +165,6 @@ public class quick_heapsort {
     }
 
     public static void main(String[] args) {
-        new quick_heapsort().run();
+        new heap_quicksort().run();
     }
 }
