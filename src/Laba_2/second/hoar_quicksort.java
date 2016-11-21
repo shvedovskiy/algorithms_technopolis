@@ -113,8 +113,8 @@ public class hoar_quicksort {
 
     public void run() {
         try {
-            in = new FastScanner(new File("/Users/user/Documents/Учеба/POLIS/ALGO/Coding/src/Laba_2/second/input.txt"));
-            out = new PrintWriter(new File("/Users/user/Documents/Учеба/POLIS/ALGO/Coding/src/Laba_2/second/output.txt"));
+            in = new FastScanner(new File("input.txt"));
+            out = new PrintWriter(new File("output.txt"));
             solve();
             out.close();
         } catch (IOException e) {
