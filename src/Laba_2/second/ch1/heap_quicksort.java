@@ -1,13 +1,24 @@
-package Laba_2.second;
+package Laba_2.second.ch1;
 
 import java.util.*;
 import java.io.*;
 
-public class hoar_quicksort {
+/**
+ * Отсортируйте заданную последовательность.
+ * В одной строке содержится последовательность, содержащая не более 100000 целых чисел.
+ * В одной строке вывести последовательность чисел в неубывающем порядке. Числа разделять между собой одним пробелом.
+ *
+ * Входные данные:
+ *  4 1 4 8 6 6 5
+ *
+ * Выходные данные:
+ *  1 4 4 5 6 6 8
+ */
+public class heap_quicksort {
     FastScanner in;
     PrintWriter out;
 
-    private class LinkedQueue {
+    public class LinkedQueue {
 
         private Node<Integer> head;
         private Node<Integer> tail;
@@ -63,32 +74,43 @@ public class hoar_quicksort {
         }
     }
 
-    public void QuickSort(int[] arr, int left, int right) {
-        if (left < right) {
-            int mid = partition(arr, left, right);
-            QuickSort(arr, left, mid);
-            QuickSort(arr, mid + 1, right);
+    public static void heapSort(int[] arr) {
+        buildHeap(arr);
+        int end = arr.length - 1;
+        while (end > 0) {
+            int tmp = arr[end];
+            arr[end] = arr[0];
+            arr[0] = tmp;
+            heapify(arr, 0, end);
+            end--;
         }
     }
 
-    private int partition(int[] arr, int left, int right) {
-        int x = arr[left];
-        int i = left - 1, j = right + 1;
+    public static void buildHeap(int[] arr) {
+        int start = (arr.length - 2) / 2;
+        while (start >= 0) {
+            heapify(arr, start, arr.length);
+            start--;
+        }
+    }
 
-        while (true) {
-            do {
-                j--;
-            } while (arr[j] > x);
-            do {
-                i++;
-            } while (arr[i] < x);
+    public static void heapify(int[] arr, int start, int end) {
+        int i = start;
+        while ((i * 2 + 1) < end) {
+            int leftChild = i * 2 + 1;
+            int rightChild = i * 2 + 2;
 
-            if (i < j) {
+            int smallerChildIndex = leftChild;
+            if ((rightChild < end) && arr[leftChild] < arr[rightChild]) {
+                smallerChildIndex = rightChild;
+            }
+            if (arr[i] < arr[smallerChildIndex]) {
                 int tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
+                arr[i] = arr[smallerChildIndex];
+                arr[smallerChildIndex] = tmp;
+                i = smallerChildIndex;
             } else {
-                return j;
+                return;
             }
         }
     }
@@ -99,13 +121,12 @@ public class hoar_quicksort {
             input_queue.enqueue(in.nextInt());
         }
 
-
         int[] arr = new int[input_queue.size()];
         for (int i = 0; i != arr.length; ++i) {
             arr[i] = input_queue.dequeue();
         }
 
-        QuickSort(arr, 0, arr.length - 1);
+        heapSort(arr);
         for (int ind = 0; ind != arr.length; ++ind) {
             out.append(arr[ind] + " ");
         }
@@ -155,7 +176,6 @@ public class hoar_quicksort {
     }
 
     public static void main(String[] args) {
-        new hoar_quicksort().run();
+        new heap_quicksort().run();
     }
 }
-
