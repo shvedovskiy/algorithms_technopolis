@@ -12,25 +12,35 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class BubbleSortBench {
+public class QuadraticsSortBench {
 
-    private int[] a;
+    private int[] arr;
 
     @Setup(value = Level.Invocation)
     public void setUpInvocation() {
-        a = Helper.gen(1000);
+        arr = Helper.gen(1000);
     }
 
     @Benchmark
     public void measureBubbleSort(Blackhole bh) {
-        bh.consume(BubbleSort.bubbleSort(a));
+        bh.consume(BubbleSort.bubbleSort(arr));
+    }
+
+    @Benchmark
+    public void measureInsertionSort(Blackhole bh) {
+        bh.consume(InsertionSort.insertionSort(arr));
+    }
+
+    @Benchmark
+    public void measureInsertionSortBinary(Blackhole bh) {
+        bh.consume(InsertionSortBinary.insertionSort(arr));
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(BubbleSortBench.class.getSimpleName())
-                .warmupIterations(5)
-                .measurementIterations(5)
+                .include(QuadraticsSortBench.class.getSimpleName())
+                .warmupIterations(20)
+                .measurementIterations(20)
                 .forks(1)
                 .build();
 

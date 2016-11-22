@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(value = Parameterized.class)
-public class Tester {
+public class QuadraticsSortTest {
 
     @Rule
     public TestRule watcher = new TestWatcher() {
