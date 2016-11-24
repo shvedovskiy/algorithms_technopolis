@@ -1,4 +1,4 @@
-package main.Lections.fourth;
+package Lections.fourth;
 
 public class HeapSort {
     /**

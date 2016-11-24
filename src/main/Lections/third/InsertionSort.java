@@ -1,4 +1,4 @@
-package main.Lections.third;
+package Lections.third;
 
 public class InsertionSort {
     /**
