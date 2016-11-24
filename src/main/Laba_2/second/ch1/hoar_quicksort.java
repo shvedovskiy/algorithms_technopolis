@@ -79,29 +79,31 @@ public class hoar_quicksort {
             int mid = partition(arr, left, right);
             QuickSort(arr, left, mid);
             QuickSort(arr, mid + 1, right);
+        } else {
+            return;
         }
     }
 
     private int partition(int[] arr, int left, int right) {
-        int x = arr[left];
-        int i = left - 1, j = right + 1;
+        int mid = arr[left + (right - left + 1) / 2];
+        int i = left, j = right;
 
-        while (true) {
-            do {
-                j--;
-            } while (arr[j] > x);
-            do {
+        while (i <= j) {
+            while (arr[i] < mid) {
                 i++;
-            } while (arr[i] < x);
-
-            if (i < j) {
+            }
+            while (arr[j] > 0) {
+                j--;
+            }
+            if (i <= j) {
                 int tmp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = tmp;
-            } else {
-                return j;
+                i++;
+                j--;
             }
         }
+        return j;
     }
 
     public void solve() throws IOException {
