@@ -1,30 +1,44 @@
 package Laba_2.second.ch2;
 
 public class LSDLongs {
-    private static final int MAX_BYTE = 6;
-
-    private static int digit(long num, int i) {
-        return (int) (num >> ((MAX_BYTE - i) * 0x8)) & 0xFF;
-    }
-
     public static long[] lsdSort(long[] arr) {
-        long[] res = new long[arr.length];
-        final int r = 256;
-        int d = MAX_BYTE + 1;
-        for (int k = 0; k != d; ++k) {
-            int[] count = new int[r];
-            for (long x : arr) {
-                count[digit(x, k)]++;
-            }
-            for (int i = 1; i != r; ++i) {
-                count[i] += count[i - 1];
-            }
-            for (int i = arr.length - 1; i >= 0; i--) {
-                count[digit(arr[i], k)] -= 1;
-                res[count[digit(arr[i], k)]] = arr[i];
-            }
-            System.arraycopy(res, 0, arr, 0, arr.length);
+        if (arr == null) {
+            return new long[]{};
         }
-        return res;
+
+        final int R = 1 << 8;
+        final int mask = R - 1;
+        final int w = 8;
+
+        long[] tmp = new long[arr.length];
+
+        for (int d = 0; d != w; ++d) {
+            long[] counters = new long[R + 1];
+            for (int i = 0; i != arr.length; ++i) {
+                int c = (int) ((arr[i] >> 8 * d) & mask);
+                counters[(c + 1)]++;
+            }
+
+            for (int r = 0; r < R; r++)
+                counters[r + 1] += counters[r];
+
+            if (d == w - 1) {
+                long shift1 = counters[R] - counters[R / 2];
+                long shift2 = counters[R / 2];
+                for (int r = 0; r != R / 2; ++r)
+                    counters[r] += shift1;
+                for (int r = R / 2; r != R; ++r)
+                    counters[r] -= shift2;
+            }
+
+            for (int i = 0; i != arr.length; ++i) {
+                int c = (int) ((arr[i] >> 8 * d) & mask);
+                tmp[(int) counters[c]++] = arr[i];
+            }
+
+            for (int i = 0; i != arr.length; ++i)
+                arr[i] = tmp[i];
+        }
+        return arr;
     }
 }

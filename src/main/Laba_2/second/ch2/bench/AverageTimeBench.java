@@ -1,5 +1,7 @@
-package Laba_2.second.ch2;
+package Laba_2.second.ch2.bench;
 
+import Laba_2.second.ch2.BubbleSort;
+import Laba_2.second.ch2.Helper;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;

@@ -1,7 +1,7 @@
 package testing.first;
 
-import Laba_2.second.ch2.*;
 import Laba_2.second.ch2.Helper;
+import Laba_2.second.ch2.QuickSortBinary;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(value = Parameterized.class)
-public class QuadraticsSortTest {
-
+public class QuickSortBinaryTest {
     @Rule
     public TestRule watcher = new TestWatcher() {
         protected void starting(final Description description) {
@@ -36,12 +35,37 @@ public class QuadraticsSortTest {
                 {4, 3, 2, 1},
                 {0, 1, 1, 0},
                 {1},
-                {Integer.MAX_VALUE, 0, 0, Integer.MIN_VALUE},
+                {Integer.MAX_VALUE, 0, 0, Integer.MAX_VALUE},
                 Helper.gen(1),
                 Helper.gen(10),
                 Helper.gen(100),
                 Helper.gen(1000),
                 Helper.gen(10000),
+                Helper.genSawtooh(10),
+                Helper.genSawtooh(100),
+                Helper.genSawtooh(1000),
+                Helper.genSawtooh(10000),
+                Helper.genIncreasing(10),
+                Helper.genIncreasing(100),
+                Helper.genIncreasing(1000),
+                Helper.genIncreasing(10000),
+                Helper.genDecreasing(10),
+                Helper.genDecreasing(100),
+                Helper.genDecreasing(1000),
+                Helper.genDecreasing(10000),
+                Helper.genZeros(1),
+                Helper.genZeros(10),
+                Helper.genZeros(100),
+                Helper.genZeros(1000),
+                Helper.genZeros(10000),
+                Helper.genStagger(10, 5),
+                Helper.genStagger(100, 10),
+                Helper.genStagger(1000, 20),
+                Helper.genStagger(10000, 50),
+                Helper.genPlateau(10, 3),
+                Helper.genPlateau(100, 33),
+                Helper.genPlateau(1000, 200),
+                Helper.genPlateau(10000, 3500),
         });
     }
 
@@ -54,17 +78,7 @@ public class QuadraticsSortTest {
     }
 
     @Test
-    public void test01_checkBubbleSort() throws IOException {
-        Assert.assertTrue(isSorted(BubbleSort.bubbleSort(array)));
-    }
-
-    @Test
-    public void test02_checkInsertionSort() throws IOException {
-        Assert.assertTrue(isSorted(InsertionSort.insertionSort(array)));
-    }
-
-    @Test
-    public void test03_checkInsertionSortBinary() throws IOException {
-        Assert.assertTrue(isSorted(InsertionSortBinary.insertionSort(array)));
+    public void test01_checkQuickSortBinary() throws IOException {
+        Assert.assertTrue(isSorted(QuickSortBinary.quickSortBinary(Arrays.copyOf(array, array.length))));
     }
 }
