@@ -9,11 +9,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Nechaev Mikhail
- * Since 20/11/16.
- */
-
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
