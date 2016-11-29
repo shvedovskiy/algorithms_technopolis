@@ -17,7 +17,7 @@ import java.util.Collection;
 
 
 @RunWith(value = Parameterized.class)
-public class MergeSortInPlaceSort {
+public class MergeSortInPlaceTest {
     @Rule
     public TestRule watcher = new TestWatcher() {
         protected void starting(final Description description) {
