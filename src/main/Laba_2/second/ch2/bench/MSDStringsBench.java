@@ -1,7 +1,7 @@
 package Laba_2.second.ch2.bench;
 
 import Laba_2.second.ch2.Helper;
-import Laba_2.second.ch2.InsertionSort;
+import Laba_2.second.ch2.MSDStrings;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
@@ -14,36 +14,34 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class InsertionSortBench {
-
-    private int[] arr;
-
+public class MSDStringsBench {
+    private String[] arr;
 
     @Setup(value = Level.Invocation)
     public void setUpInvocation() {
-        //arr = Helper.gen(10000);
-        //arr = Helper.gen(50000);
-        //arr = Helper.gen(100000);
-        //arr = Helper.genIncreasing(10000);
-        //arr = Helper.genIncreasing(50000);
-        //arr = Helper.genIncreasing(100000);
-        //arr = Helper.genDecreasing(10000);
-        //arr = Helper.genDecreasing(50000);
-        arr = Helper.genDecreasing(100000);
+        //arr = Helper.genStrings(10000, 200);
+        //arr = Helper.genStrings(50000, 200);
+        arr = Helper.genStrings(100000, 200);
+        //arr = Helper.genMSDBest(10000, 200);
+        //arr = Helper.genMSDBest(50000, 200);
+        //arr = Helper.genMSDBest(100000, 200);
     }
 
     @Benchmark
-    public void measureInsertionSort(Blackhole bh) {
-        bh.consume(InsertionSort.insertionSort(arr));
+    public void measureMSDStrings(Blackhole bh) {
+        bh.consume(MSDStrings.msdSort(arr));
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(InsertionSortBench.class.getSimpleName())
-                .warmupIterations(15)
-                .measurementIterations(15)
+                .include(MSDStringsBench.class.getSimpleName())
+                .warmupIterations(20)
+                .measurementIterations(20)
                 .forks(1)
                 .build();
         new Runner(opt).run();
     }
 }
+
+
+

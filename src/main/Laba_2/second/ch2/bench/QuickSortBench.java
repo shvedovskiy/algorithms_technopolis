@@ -1,7 +1,7 @@
 package Laba_2.second.ch2.bench;
 
 import Laba_2.second.ch2.Helper;
-import Laba_2.second.ch2.InsertionSort;
+import Laba_2.second.ch2.QuickSort;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
@@ -14,10 +14,8 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class InsertionSortBench {
-
+public class QuickSortBench {
     private int[] arr;
-
 
     @Setup(value = Level.Invocation)
     public void setUpInvocation() {
@@ -27,23 +25,25 @@ public class InsertionSortBench {
         //arr = Helper.genIncreasing(10000);
         //arr = Helper.genIncreasing(50000);
         //arr = Helper.genIncreasing(100000);
-        //arr = Helper.genDecreasing(10000);
-        //arr = Helper.genDecreasing(50000);
-        arr = Helper.genDecreasing(100000);
+        //arr = Helper.genAntiQuickSort(10000);
+        //arr = Helper.genAntiQuickSort(50000);
+        arr = Helper.genAntiQuickSort(100000);
+
     }
 
     @Benchmark
-    public void measureInsertionSort(Blackhole bh) {
-        bh.consume(InsertionSort.insertionSort(arr));
+    public void measureQuickSort(Blackhole bh) {
+        bh.consume(QuickSort.quickSort(arr));
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(InsertionSortBench.class.getSimpleName())
-                .warmupIterations(15)
-                .measurementIterations(15)
+                .include(QuickSortBench.class.getSimpleName())
+                .warmupIterations(10)
+                .measurementIterations(10)
                 .forks(1)
                 .build();
         new Runner(opt).run();
     }
 }
+

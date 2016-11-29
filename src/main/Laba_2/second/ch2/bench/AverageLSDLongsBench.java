@@ -1,7 +1,7 @@
 package Laba_2.second.ch2.bench;
 
-import Laba_2.second.ch2.BubbleSort;
 import Laba_2.second.ch2.Helper;
+import Laba_2.second.ch2.LSDLongs;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -14,21 +14,21 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class AverageTimeBench {
-
-    int[][] data;
-    int[] curr;
+public class AverageLSDLongsBench {
+    long[][] data;
+    long[] curr;
     int index;
 
     @Setup(value = Level.Trial)
     public void setUpTrial() {
-        data = new int[10][100];
-        for (int i = 0; i < 10; i++) {
-            //define arrays here
-            data[i] = Helper.gen(100);
+        data = new long[10][100];
+        for (int i = 0; i != 10; ++i) {
+            //data[i] = Helper.genLongs(10000);
+            //data[i] = Helper.genLongs(50000);
+            data[i] = Helper.genLongs(100000);
         }
     }
 
@@ -39,15 +39,16 @@ public class AverageTimeBench {
     }
 
     @Benchmark
-    public void measureBubbleSort() {
-        BubbleSort.bubbleSort(curr);
+    public void measureLSDLongs() {
+        LSDLongs.lsdSort(curr);
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(AverageTimeBench.class.getSimpleName())
+                .include(AverageLSDLongsBench.class.getSimpleName())
                 .build();
 
         new Runner(opt).run();
     }
 }
+
