@@ -2,44 +2,33 @@ package Laba_2.second.ch2;
 
 public class MergeSort {
     public static int[] mergeSort(int[] arr) {
-        mergeSort(arr, 0, arr.length - 1);
+        if (arr.length <= 1) {
+            return arr;
+        }
+        int[] left = new int[arr.length / 2];
+        int[] right = new int[arr.length - left.length];
+        System.arraycopy(arr, 0, left, 0, left.length);
+        System.arraycopy(arr, left.length, right, 0, right.length);
+
+        mergeSort(left);
+        mergeSort(right);
+        merge(arr, left, right);
         return arr;
     }
 
-    private static void mergeSort(int[] arr, int left, int right) {
-        if (left < right) {
-            int mid = (left + right) / 2;
-            mergeSort(arr, left, mid);
-            mergeSort(arr, mid + 1, right);
-            merge(arr, left, mid, right);
-        }
-    }
-
-    private static void merge(int[] arr, int left, int mid, int right) {
-        int[] tmp = new int[arr.length];
-        int leftStart = left;
-        int leftEnd = mid;
-        int rightStart = mid + 1;
-        int rightEnd = right;
-        int len = rightEnd - leftStart + 1;
-
-        int i = leftStart;
-        while(leftStart <= leftEnd && rightStart <= rightEnd) {
-            if (arr[leftStart] <= arr[rightStart]) {
-                tmp[i++] = arr[leftStart++];
+    private static void merge(int[] arr, int[] left, int[] right) {
+        int i = 0, j = 0, k = 0;
+        while ((i < left.length) && (j < right.length)) {
+            if (left[i] < right[j]) {
+                arr[k] = left[i];
+                i++;
             } else {
-                tmp[i++] = arr[rightStart++];
+                arr[k] = right[j];
+                j++;
             }
+            k++;
         }
-        while (leftStart <= leftEnd) {
-            tmp[i++] = arr[leftStart++];
-        }
-        while (rightStart <= rightEnd) {
-            tmp[i++] = arr[rightStart++];
-        }
-
-        for (int j = 0; j != len; ++j, rightEnd--) {
-            arr[rightEnd] = tmp[rightEnd];
-        }
+        System.arraycopy(left, i, arr, k, left.length - i);
+        System.arraycopy(right, j, arr, k, right.length - j);
     }
 }

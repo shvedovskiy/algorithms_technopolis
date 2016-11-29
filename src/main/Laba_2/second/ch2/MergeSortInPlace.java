@@ -11,38 +11,32 @@ public class MergeSortInPlace {
         }
         else if (right - left == 1) {
             if (arr[left] > arr[right])
-                swap(arr, left, right);
+                Helper.swap(arr, left, right);
         }
         else {
             int mid = ((int) Math.floor((left + right) / 2));
             mergeSort(arr, left, mid);
             mergeSort(arr, mid + 1, right);
-            merge(arr, left, right, mid);
+            merge(arr, left, mid, right);
         }
     }
 
-    private static void merge(int[] arr, int left, int right, int mid) {
+    private static void merge(int[] arr, int left, int mid, int right) {
         int i = left;
         while (i <= mid) {
             if (arr[i] > arr[mid + 1]) {
-                swap(arr, i, mid + 1);
+                Helper.swap(arr, i, mid + 1);
                 push(arr, mid + 1, right);
             }
             i++;
         }
     }
 
-    private static void swap(int[] arr, int i, int j){
-        arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[i] ^ arr[j];
-    }
-
 
     private static void push(int[] arr, int left, int right){
         for (int i = left; i != right; ++i){
             if (arr[i] > arr[i + 1])
-                swap(arr, i, i + 1);
+                Helper.swap(arr, i, i + 1);
         }
     }
 }

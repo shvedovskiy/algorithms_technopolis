@@ -1,5 +1,6 @@
 package Laba_2.second.ch2;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,8 +15,14 @@ public class Helper {
         a[j] = x;
     }
 
-    public static void swapLongs(long[] a, int i, int j) {
+    public static void swap(long[] a, int i, int j) {
         long x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+
+    public static void swap(String[] a, int i, int j) {
+        String x = a[i];
         a[i] = a[j];
         a[j] = x;
     }
@@ -32,15 +39,6 @@ public class Helper {
         return result;
     }
 
-    public static int[] gen(int len, int range) {
-        int[] result = new int[len];
-        Random rand = new Random();
-        for (int i = 0; i != result.length; ++i) {
-            result[i] = rand.nextInt(range);
-        }
-        return result;
-    }
-
     public static long[] genLongs(int n) {
         long[] result = new long[n];
         for (int i = 0; i != result.length; ++i) {
@@ -48,7 +46,7 @@ public class Helper {
         }
         for (int i = result.length - 1; i > 0; i--) {
             int j = rL.nextInt(i + 1);
-            Helper.swapLongs(result, i, j);
+            Helper.swap(result, i, j);
         }
         return result;
     }
@@ -117,9 +115,19 @@ public class Helper {
         return result;
     }
 
-    private static String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static int[] genAntiQuickSort(int n) {
+        int[] result = new int[n];
+        for (int i = 0; i != result.length; ++i) {
+            result[i] = i + 1;
+        }
+        for (int i = 2; i != result.length; ++i) {
+            Helper.swap(result, i, i / 2);
+        }
+        return result;
+    }
 
     public static String[] genStrings(int count, int n) {
+        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random rand = new Random();
         String[] result = new String[count];
 
@@ -132,6 +140,12 @@ public class Helper {
             }
             result[i] = str.toString();
         }
+        return result;
+    }
+
+    public static String[] genMSDBest(int count, int n) {
+        String[] result = Helper.genStrings(count, n);
+        Arrays.sort(result);
         return result;
     }
 }

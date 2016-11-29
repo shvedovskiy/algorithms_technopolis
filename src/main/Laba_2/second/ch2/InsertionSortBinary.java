@@ -5,7 +5,7 @@ public class InsertionSortBinary {
         int left = start;
         int right = end;
         int mid;
-        while (left < right) { // [left, right)
+        while (left < right) {
             mid= (left + right) / 2;
             if (key == arr[mid]) {
                 return mid;
@@ -28,13 +28,12 @@ public class InsertionSortBinary {
 
     public static int[] insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; ++i) {
-            int j = i - 1;
-            int k = binarySearch(arr, arr[i], 0, i); // [0, i)
-            for (int m = j; m >= k; m--) {
-                if (k != -1) {
-                    Helper.swap(arr, m, m + 1);
-                }
+            int k = binarySearch(arr, arr[i], 0, i);
+            int tmp = arr[i];
+            for (int j = i - 1; j >= k; j--) {
+                arr[j + 1] = arr[j];
             }
+            arr[k] = tmp;
         }
         return arr;
     }
