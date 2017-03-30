@@ -1,6 +1,8 @@
 package Seminars.first.iterators;
 
-import java.util.Comparator;
+import Seminars.first.collections.ArrayPriorityQueue;
+import Seminars.first.collections.IPriorityQueue;
+
 import java.util.Iterator;
 
 /**
@@ -14,25 +16,25 @@ import java.util.Iterator;
  *  k — суммарное количество элементов
  */
 public class MergingPeekingIncreasingIterator implements Iterator<Integer> {
+    private final IPriorityQueue<IPeekingComparableIterator<Integer>> heap;
 
-    private Comparator<PeekingIncreasingIterator> comparator = (p1, p2) -> p1.peek().compareTo(p2.peek());
-
-    public MergingPeekingIncreasingIterator(IPeekingIterator... peekingIterator) {
-        /* TODO: implement it */
-//        for (int i = 0; i < peekingIterator.length; i++) {
-//            peekingIterator[i].hasNext();
-//        }
+    @SafeVarargs
+    public MergingPeekingIncreasingIterator(IPeekingComparableIterator<Integer> ... peekingIterators) {
+        heap = new ArrayPriorityQueue<>(peekingIterators);
     }
 
     @Override
     public boolean hasNext() {
-        /* TODO: implement it */
-        return false;
+        return !heap.isEmpty();
     }
 
     @Override
     public Integer next() {
-        /* TODO: implement it */
-        return null;
+        final IPeekingComparableIterator<Integer> min = heap.extractMin();
+        final Integer nextValue = min.next();
+        if (min.hasNext()) {
+            heap.add(min);
+        }
+        return nextValue;
     }
 }

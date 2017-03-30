@@ -15,22 +15,60 @@ public class MergingIncreasingIterator implements Iterator<Integer> {
 
     private IncreasingIterator first;
     private IncreasingIterator second;
+    private boolean hasOldFirst;
+    private boolean hasOldSecond;
+    private int oldFirst;
+    private int oldSecond;
 
     public MergingIncreasingIterator(IncreasingIterator first, IncreasingIterator second) {
         this.first = first;
         this.second = second;
-        /* TODO: implement it */
+        if (first.hasNext()) {
+            oldFirst = first.next();
+            hasOldFirst = true;
+        } else if(second.hasNext()){
+            oldSecond = second.next();
+            hasOldSecond = true;
+        }
     }
 
     @Override
     public boolean hasNext() {
-        /* TODO: implement it */
-        return false;
+        return hasOldFirst || hasOldSecond || first.hasNext() || second.hasNext();
     }
 
     @Override
     public Integer next() {
-        /* TODO: implement it */
-        return null;
+        if (hasOldFirst) {
+            if (second.hasNext()) {
+                hasOldSecond = true;
+                oldSecond = second.next();
+                if (oldSecond < oldFirst) {
+                    hasOldSecond = false;
+                    return oldSecond;
+                } else {
+                    hasOldFirst = false;
+                    return oldFirst;
+                }
+            } else {
+                hasOldFirst = false;
+                return oldFirst;
+            }
+        } else { // hasOldSecond
+            if (first.hasNext()) {
+                hasOldFirst = true;
+                oldFirst = first.next();
+                if (oldFirst < oldSecond) {
+                    hasOldFirst = false;
+                    return oldFirst;
+                } else {
+                    hasOldSecond = false;
+                    return oldSecond;
+                }
+            } else {
+                hasOldSecond = false;
+                return oldSecond;
+            }
+        }
     }
 }
