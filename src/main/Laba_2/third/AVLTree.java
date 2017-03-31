@@ -4,8 +4,8 @@ import java.util.*;
 
 public class AVLTree<E extends Comparable<E>> implements ISortedSet<E> {
     private class Node {
-        public E data;
-        public int height;
+        public E    data;
+        public int  height;
         public Node left;
         public Node right;
 
@@ -29,7 +29,7 @@ public class AVLTree<E extends Comparable<E>> implements ISortedSet<E> {
 
         void fixHeight() {
             final int hl = left != null ? left.height : 0;
-            final int hr = right != null? right.height : 0;
+            final int hr = right != null ? right.height : 0;
             height = Math.max(hl, hr) + 1;
         }
 

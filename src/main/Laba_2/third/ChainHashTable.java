@@ -3,11 +3,11 @@ package Laba_2.third;
 import java.util.*;
 
 public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
-    class Node {
-        E value;
-        Node next;
+    private class Node {
+        public E value;
+        public Node next;
 
-        Node(E value) {
+        public Node(E value) {
             this.value = value;
         }
 
@@ -23,10 +23,10 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
         }
     }
 
-    private final int INITIAL_CAPACITY = 8;
-    private Comparator<E> comparator;
+    private static final int INITIAL_CAPACITY = 8;
     private Object[] table;
     private int size;
+    private Comparator<E> comparator;
 
     public ChainHashTable() {
         this(null);
@@ -53,7 +53,7 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
         while (curr != null && !curr.equals(value)) {
             curr = curr.next;
         }
-        //Вышли по второму условию
+        // Опреределяем, по какому условию вышли из цикла:
         return curr != null;
     }
 
@@ -67,7 +67,7 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
             while (curr.next != null && compare(value, curr.value) != 0) {
                 curr = curr.next;
             }
-            if (compare(value, curr.value) == 0) {
+            if (compare(value, curr.value) == 0) { // элемент уже имеется в цепочке
                 return false;
             }
             curr.next = new Node(value);
@@ -82,12 +82,12 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
         Node prev = null;
         int index = hash(value);
         Node curr = getNode(index);
-        while (curr != null && compare(value, curr.value) != 0) {
+        while (curr != null && compare(value, curr.value) != 0) { // до нахождения элемента в цепочке
             prev = curr;
             curr = curr.next;
         }
-        if (curr != null) {
-            if (prev == null) { //head
+        if (curr != null) { // нашли элемент
+            if (prev == null) { // который в начале цепочки
                 table[index] = getNode(index).next;
             } else {
                 prev.next = curr.next;
@@ -97,7 +97,7 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
             size--;
             return true;
         }
-        return false;
+        return false; // элемента нет в таблице
     }
 
     private int hash(E value) {
@@ -127,7 +127,7 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
                 Node curr = node;
                 while (curr != null) {
                     Node next = curr.next;
-                    //FIXME: insert value in head (all unique)
+                    //FIXME: insert data in head (all unique)
                     add(curr.value);
                     curr.next = null;
                     curr.value = null;
@@ -138,7 +138,7 @@ public class ChainHashTable<E extends Comparable<E>> implements ISet<E> {
         }
     }
 
-    private void print() {
+    public void print() {
         for (int i = 0; i < table.length; i++) {
             Node curr = getNode(i);
             System.out.println("idx = " + i + ", " + curr);

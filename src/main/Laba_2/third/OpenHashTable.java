@@ -3,10 +3,22 @@ package Laba_2.third;
 import java.util.Comparator;
 
 public class OpenHashTable<E extends Comparable<E>> implements ISet<E> {
+    private class DeletedNode extends Object {
+        @Override
+        public int hashCode() {
+            return -1;
+        }
+
+        @Override
+        public String toString() {
+            return "Deleted";
+        }
+    }
+
     private static final int INITIAL_CAPACITY = 8;
     private Object[] table;
-    private Comparator<E> comparator;
     private int size;
+    private Comparator<E> comparator;
 
     public OpenHashTable() {
         this(null);
@@ -29,17 +41,17 @@ public class OpenHashTable<E extends Comparable<E>> implements ISet<E> {
 
     @Override
     public boolean contains(E value) {
-        int h1 = hash(value, 0);
-        int h2 = hash(value, 1);
+        int hash1 = hash(value, 0);
+        int hash2 = hash(value, 1);
         for (int i = 0; i != table.length; ++i) {
-            if (table[h1] != null) {
-                if (h1 != -1 && table[h1].equals(value)) {
+            if (table[hash1] == null) { // в таблице такого значения нет
+                return false;
+            } else {
+                if (hash1 != -1 && table[hash1].equals(value)) { // значение в имеющейся ячейке совпало
                     return true;
                 }
-            } else {
-                return false;
             }
-            h1 = (h1 + h2) % table.length;
+            hash1 = (hash1 + hash2) % table.length; // пересчет хеша, если значение не совпало
         }
         return false;
     }
@@ -47,36 +59,36 @@ public class OpenHashTable<E extends Comparable<E>> implements ISet<E> {
     @Override
     public boolean add(E value) {
         resize();
-        int h1 = hash(value, 0);
-        int h2 = hash(value, 1);
+        int hash1 = hash(value, 0);
+        int hash2 = hash(value, 1);
         for (int i = 0; i != table.length; ++i) {
-            if (table[h1] == null || h1 == -1) {
-                table[h1] = value;
+            if (table[hash1] == null || hash1 == -1) { // ячейка еще не занята
+                table[hash1] = value;
                 size++;
                 return true;
-            } else if (table[h1].equals(value)) {
+            } else if (table[hash1].equals(value)) { // такое значение уже содержится в таблице
                 return false;
             }
-            h1 = (h1 + h2) % table.length;
+            hash1 = (hash1 + hash2) % table.length; // пересчет хеша, если значение не совпало
         }
         return false;
     }
 
     @Override
     public boolean remove(E value) {
-        int h1 = hash(value, 0);
-        int h2 = hash(value, 1);
+        int hash1 = hash(value, 0);
+        int hash2 = hash(value, 1);
         for (int i = 0; i != table.length; ++i) {
-            if (table[h1] != null) {
-                if (h1 != -1 && table[h1].equals(value)) {
-                    table[h1] = new Deleted();
+            if (table[hash1] == null) { // значение не найдено
+                return false;
+            } else { // ячейка занята
+                if (hash1 != -1 && table[hash1].equals(value)) { // совпадает по значению
+                    table[hash1] = new DeletedNode();
                     size--;
                     return true;
                 }
-            } else {
-                return false;
             }
-            h1 = (h1 + h2) % table.length;
+            hash1 = (hash1 + hash2) % table.length; // пересчет хеша, если значение не совпало
         }
         return false;
     }
@@ -119,28 +131,27 @@ public class OpenHashTable<E extends Comparable<E>> implements ISet<E> {
         if ((size << 1) < table.length) {
             return;
         }
-        Object[] old = this.table;
+        Object[] oldTable = this.table;
         size = 0;
         table = new Object[table.length << 1];
-        for (int i = 0; i != old.length; ++i) {
-            if (old[i] == null || hash(old[i], 0) == -1) {
+        for (int i = 0; i != oldTable.length; ++i) {
+            if (oldTable[i] == null || hash(oldTable[i], 0) == -1) {
                 continue;
             }
-            add((E) old[i]);
-            old[i] = null;
+            add((E) oldTable[i]);
+            oldTable[i] = null;
         }
     }
 
-    private class Deleted extends Object {
-        @Override
-        public int hashCode() {
-            return -1;
-        }
-
-        @Override
-        public String toString() {
-            return "Deleted";
-        }
+    public static void main(String[] args) {
+        OpenHashTable<String> ts = new OpenHashTable<>();
+        ts.add("abc");
+        ts.add("abc");
+        ts.add("bcd");
+        ts.add("cde");
+        ts.add("qwerty");
+        ts.add("polis");
+        ts.print();
     }
 }
 

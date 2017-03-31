@@ -11,22 +11,21 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     protected static final boolean RED = true;
     private final Node nil = new Node(null);
 
-    class Node {
+    private class Node {
+        public E data;
+        public Node left = nil;
+        public Node right = nil;
+        public Node parent = nil;
+        public boolean color = BLACK;
 
-        Node(E value) {
-            this.value = value;
+        public Node(E data) {
+            this.data = data;
         }
-
-        E value;
-        Node left = nil;
-        Node right = nil;
-        Node parent = nil;
-        boolean color = BLACK;
 
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder("N{");
-            sb.append("d=").append(value);
+            sb.append("d=").append(data);
             if (left != nil) {
                 sb.append(", l=").append(left);
             }
@@ -43,7 +42,7 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     private final Comparator<E> comparator;
 
     public RedBlackTree() {
-        this.comparator = null;
+        this(null);
     }
 
     public RedBlackTree(Comparator<E> comparator) {
@@ -53,40 +52,39 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     @Override
     public E first() {
         if (isEmpty()) {
-            throw new NoSuchElementException("set is empty, no first element");
+            throw new NoSuchElementException("Tree is empty, no first element");
         }
         Node curr = root;
         while (curr.left != nil) {
             curr = curr.left;
         }
-        return curr.value;
+        return curr.data;
     }
 
     @Override
     public E last() {
         if (isEmpty()) {
-            throw new NoSuchElementException("set is empty, no last element");
+            throw new NoSuchElementException("Tree is empty, no last element");
         }
         Node curr = root;
         while (curr.right != nil) {
             curr = curr.right;
         }
-        return curr.value;
+        return curr.data;
     }
 
     @Override
     public List<E> inorderTraverse() {
-        List<E> list = new ArrayList<E>(size);
+        List<E> list = new ArrayList<>(size);
         inorderTraverse(root, list);
         return list;
     }
-
     private void inorderTraverse(Node curr, List<E> list) {
         if (curr == nil) {
             return;
         }
         inorderTraverse(curr.left, list);
-        list.add(curr.value);
+        list.add(curr.data);
         inorderTraverse(curr.right, list);
     }
 
@@ -103,12 +101,12 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     @Override
     public boolean contains(E value) {
         if (value == null) {
-            throw new NullPointerException("value is null");
+            throw new NullPointerException("data is null");
         }
         if (root != nil) {
             Node curr = root;
             while (curr != nil) {
-                int cmp = compare(curr.value, value);
+                int cmp = compare(curr.data, value);
                 if (cmp == 0) {
                     return true;
                 } else if (cmp < 0) {
@@ -124,14 +122,14 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     @Override
     public boolean add(E value) {
         if (value == null) {
-            throw new NullPointerException("value is null");
+            throw new NullPointerException("data is null");
         }
         boolean res;
         Node nodeToAdd = new Node(value);
         Node compNode = root;
         if (root != nil) {
             while (true) {
-                if (compare(nodeToAdd.value, compNode.value) < 0) { //nodeToAdd.value < compNode.value
+                if (compare(nodeToAdd.data, compNode.data) < 0) { //nodeToAdd.data < compNode.data
                     if (compNode.left == nil) {
                         compNode.left = nodeToAdd;
                         nodeToAdd.parent = compNode;
@@ -141,14 +139,14 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
                     } else {
                         compNode = compNode.left;
                     }
-                } else if (compare(nodeToAdd.value, compNode.value) > 0) { //nodeToAdd.value > compNode.value
+                } else if (compare(nodeToAdd.data, compNode.data) > 0) { //nodeToAdd.data > compNode.data
                     if (compNode.right == nil) {
                         compNode.right = nodeToAdd;
                         nodeToAdd.parent = compNode;
                         nodeToAdd.color = RED;
                         res = true;
                         break;
-                    } else { //nodeToAdd.value == compNode.value
+                    } else { //nodeToAdd.data == compNode.data
                         compNode = compNode.right;
                     }
                 } else {
@@ -208,7 +206,7 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
         root.color = BLACK;
     }
 
-    void rotateLeft(Node n) {
+    private void rotateLeft(Node n) {
         if (n.parent != nil) {
             if (n == n.parent.left) {
                 n.parent.left = n.right;
@@ -233,7 +231,7 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
         root = rootRight;
     }
 
-    void rotateRight(Node n) {
+    private void rotateRight(Node n) {
         if (n.parent != nil) {
             if (n == n.parent.left) {
                 n.parent.left = n.left;
@@ -261,39 +259,31 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
     @Override
     public boolean remove(E value) {
         if (value == null) {
-            throw new NullPointerException("value is null");
+            throw new NullPointerException("data is null");
         }
         Node nodeForRemove, n, k;
         nodeForRemove = nodeForRemove(value, root);
-        if(nodeForRemove == nil){
+        if (nodeForRemove == nil){
             return false;
         }
         boolean isFixupOnRemoveNeeded;
-        if(nodeForRemove.color == BLACK){
-            isFixupOnRemoveNeeded = true;
-        } else {
-            isFixupOnRemoveNeeded = false;
-        }
+        isFixupOnRemoveNeeded = nodeForRemove.color == BLACK;
 
         if(nodeForRemove.left == nil) {
             n = nodeForRemove.right;
             performTransplant(nodeForRemove, nodeForRemove.right);
-        } else if(nodeForRemove.right == nil){
+        } else if (nodeForRemove.right == nil){
             n = nodeForRemove.left;
             performTransplant(nodeForRemove, nodeForRemove.left);
         } else {
             Node tempRoot = nodeForRemove.right;
-            while(tempRoot.left != nil) {
+            while (tempRoot.left != nil) {
                 tempRoot = tempRoot.left;
             }
             k = tempRoot;
-            if(k.color == BLACK){
-                isFixupOnRemoveNeeded = true;
-            } else {
-                isFixupOnRemoveNeeded = false;
-            }
+            isFixupOnRemoveNeeded = k.color == BLACK;
             n = k.right;
-            if(k.parent == nodeForRemove) {
+            if (k.parent == nodeForRemove) {
                 n.parent = k;
             } else {
                 performTransplant(k, k.right);
@@ -309,7 +299,6 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
         if(isFixupOnRemoveNeeded){
             fixUpOnRemove(n);
         }
-
         size--;
         return true;
     }
@@ -318,24 +307,24 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
         if (isEmpty()) {
             return nil;
         }
-        if (compare(value, n.value) < 0) { //value < n.value
+        if (compare(value, n.data) < 0) { //data < n.data
             if (n.left != nil) {
                 return nodeForRemove(value, n.left);
             }
-        } else if (compare(value, n.value) > 0) { //value > n.value
+        } else if (compare(value, n.data) > 0) { //data > n.data
             if (n.right != nil) {
                 return nodeForRemove(value, n.right);
             }
-        } else { //value == n.value
+        } else { //data == n.data
             return n;
         }
         return nil;
     }
 
-    void performTransplant(Node n, Node k) {
-        if(n.parent == nil) {
+    private void performTransplant(Node n, Node k) {
+        if (n.parent == nil) {
             root = k;
-        } else if(n == n.parent.left) {
+        } else if (n == n.parent.left) {
             n.parent.left = k;
         } else {
             n.parent.right = k;
@@ -343,27 +332,27 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
         k.parent = n.parent;
     }
 
-    void fixUpOnRemove(Node node) {
-        while(node != root && node.color == BLACK) {
-            if(node == node.parent.left) {
+    private void fixUpOnRemove(Node node) {
+        while (node != root && node.color == BLACK) {
+            if (node == node.parent.left) {
                 Node w = node.parent.right;
-                if(w.color == RED) {
+                if (w.color == RED) {
                     w.color = BLACK;
                     node.parent.color = RED;
                     rotateLeft(node.parent);
                     w = node.parent.right;
                 }
-                if(w.left.color == BLACK && w.right.color == BLACK) {
+                if (w.left.color == BLACK && w.right.color == BLACK) {
                     w.color = RED;
                     node = node.parent;
                     continue;
-                } else if(w.right.color == BLACK) {
+                } else if (w.right.color == BLACK) {
                     w.left.color = BLACK;
                     w.color = RED;
                     rotateRight(w);
                     w = node.parent.right;
                 }
-                if(w.right.color == RED) {
+                if (w.right.color == RED) {
                     w.color = node.parent.color;
                     node.parent.color = BLACK;
                     w.right.color = BLACK;
@@ -372,23 +361,23 @@ public class RedBlackTree<E extends Comparable<E>> implements ISortedSet<E> {
                 }
             } else {
                 Node w = node.parent.left;
-                if(w.color == RED) {
+                if (w.color == RED) {
                     w.color = BLACK;
                     node.parent.color = RED;
                     rotateRight(node.parent);
                     w = node.parent.left;
                 }
-                if(w.right.color == BLACK && w.left.color == BLACK) {
+                if (w.right.color == BLACK && w.left.color == BLACK) {
                     w.color = RED;
                     node = node.parent;
                     continue;
-                } else if(w.left.color == BLACK) {
+                } else if (w.left.color == BLACK) {
                     w.right.color = BLACK;
                     w.color = RED;
                     rotateLeft(w);
                     w = node.parent.left;
                 }
-                if(w.left.color == RED) {
+                if (w.left.color == RED) {
                     w.color = node.parent.color;
                     node.parent.color = BLACK;
                     w.left.color = BLACK;
