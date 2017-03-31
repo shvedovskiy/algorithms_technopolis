@@ -14,11 +14,11 @@ import java.io.*;
  * Выходные данные:
  *  1 4 4 5 6 6 8
  */
-public class heap_quicksort {
+public class HoarQuickSort {
     FastScanner in;
     PrintWriter out;
 
-    public class LinkedQueue {
+    private class LinkedQueue {
 
         private Node<Integer> head;
         private Node<Integer> tail;
@@ -74,45 +74,36 @@ public class heap_quicksort {
         }
     }
 
-    public static void heapSort(int[] arr) {
-        buildHeap(arr);
-        int end = arr.length - 1;
-        while (end > 0) {
-            int tmp = arr[end];
-            arr[end] = arr[0];
-            arr[0] = tmp;
-            heapify(arr, 0, end);
-            end--;
+    public void QuickSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = partition(arr, left, right);
+            QuickSort(arr, left, mid);
+            QuickSort(arr, mid + 1, right);
+        } else {
+            return;
         }
     }
 
-    public static void buildHeap(int[] arr) {
-        int start = (arr.length - 2) / 2;
-        while (start >= 0) {
-            heapify(arr, start, arr.length);
-            start--;
-        }
-    }
+    private int partition(int[] arr, int left, int right) {
+        int mid = arr[left + (right - left + 1) / 2];
+        int i = left, j = right;
 
-    public static void heapify(int[] arr, int start, int end) {
-        int i = start;
-        while ((i * 2 + 1) < end) {
-            int leftChild = i * 2 + 1;
-            int rightChild = i * 2 + 2;
-
-            int smallerChildIndex = leftChild;
-            if ((rightChild < end) && arr[leftChild] < arr[rightChild]) {
-                smallerChildIndex = rightChild;
+        while (i <= j) {
+            while (arr[i] < mid) {
+                i++;
             }
-            if (arr[i] < arr[smallerChildIndex]) {
+            while (arr[j] > 0) {
+                j--;
+            }
+            if (i <= j) {
                 int tmp = arr[i];
-                arr[i] = arr[smallerChildIndex];
-                arr[smallerChildIndex] = tmp;
-                i = smallerChildIndex;
-            } else {
-                return;
+                arr[i] = arr[j];
+                arr[j] = tmp;
+                i++;
+                j--;
             }
         }
+        return j;
     }
 
     public void solve() throws IOException {
@@ -121,12 +112,13 @@ public class heap_quicksort {
             input_queue.enqueue(in.nextInt());
         }
 
+
         int[] arr = new int[input_queue.size()];
         for (int i = 0; i != arr.length; ++i) {
             arr[i] = input_queue.dequeue();
         }
 
-        heapSort(arr);
+        QuickSort(arr, 0, arr.length - 1);
         for (int ind = 0; ind != arr.length; ++ind) {
             out.append(arr[ind] + " ");
         }
@@ -176,6 +168,7 @@ public class heap_quicksort {
     }
 
     public static void main(String[] args) {
-        new heap_quicksort().run();
+        new HoarQuickSort().run();
     }
 }
+

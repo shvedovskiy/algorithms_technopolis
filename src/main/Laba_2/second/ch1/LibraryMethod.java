@@ -28,7 +28,7 @@ import java.io.*;
  *  1 2 5 3
  *  1 2 3 5
  */
-public class libraryMethod {
+public class LibraryMethod {
     FastScanner in;
     PrintWriter out;
 
@@ -121,6 +121,6 @@ public class libraryMethod {
     }
 
     public static void main(String[] args) {
-        new libraryMethod().run();
+        new LibraryMethod().run();
     }
 }

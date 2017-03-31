@@ -1,66 +1,59 @@
-package Laba_2.second.ch1;
+package Laba_2.first;
 
 import java.util.*;
 import java.io.*;
 
 /**
- * Определите, сколько обменов сделает алгоритм пузырьковой сортировки по возрастанию для данного массива.
- * В первой строке дано число N (1 <= N <= 1000) - количество элеменов в массиве.
- * Во второй строке - сам массив. Гарантируется, что все элементы массива различны и не превышают по модулю 10^9.
- * Выведите одно число - количество обменов пузырьковой сортировки.
+ * Структуру данных Heap можно реализовать на основе массива.
+ * Для этого должно выполняться основное свойство Heap-а, которое заключается в следующем.
+ * Для каждого i (1 <= i <= n) выполняются следующие условия:
+ *  1. Если 2i <= n, то a_i <= a_2i
+ *  2. Если 2i + 1 <= n, то a_i <= a_2i+1
+ *  Дан массив целых чисел. Определите является ли он Heap-ом.
+ *  Первая строка содержит целое число n (1 <= n <= 10^5). Вторая строка содержит n целых чисел,
+ *  не превосходящих по модулю 2 * 10^9.
+ *  Выведите "YES", если массив является Heap-ом и "NO" в противном случае.
  *
  * Входные данные:
  *  Sample 1
- *  3
- *  1 3 2
+ *  5
+ *  1 0 1 2 0
  *
  *  Sample 2
- *  2
- *  2 1
- *
- *  Sample 3
- *  4
- *  4 1 5 3
+ *  5
+ *  1 3 2 5 4
  *
  * Выходные данные:
  *  Sample 1
- *  1
+ *  NO
  *
  *  Sample 2
- *  1
- *
- *  Sample 3
- *  3
+ *  YES
  */
-public class bubble {
+public class IsHeap {
     FastScanner in;
     PrintWriter out;
 
     public void solve() throws IOException {
         int n = in.nextInt();
-        long[] arr = new long[n];
-
+        long[] numbers = new long[n];
         for (int i = 0; i != n; ++i) {
-            arr[i] = in.nextLong();
+            numbers[i] = in.nextLong();
         }
 
-        int i = 0, res = 0;
-        boolean changed = false;
-
-        do {
-            changed = false;
-            for (int j = 0; j != arr.length - i - 1; ++j) {
-                if (arr[j] > arr[j + 1]) {
-                    long tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                    res++;
-                    changed = true;
-                }
+        boolean isHeap = true;
+        for (int i = 0; i != n / 2; ++i) {
+            if (numbers[i] > numbers[2 * i] && numbers[i] > numbers[2 * i + 1]) {
+                isHeap = false;
+                break;
             }
-            i++;
-        } while (changed);
-        out.append("" + res);
+        }
+
+        if (isHeap) {
+            out.append("YES");
+        } else {
+            out.append("NO");
+        }
     }
 
     public void run() {
@@ -107,6 +100,8 @@ public class bubble {
     }
 
     public static void main(String[] args) {
-        new bubble().run();
+        new IsHeap().run();
     }
 }
+
+

@@ -46,7 +46,7 @@ import java.io.*;
  *  123
  *  bye
  */
-public class queue {
+public class Queue {
     FastScanner in;
     PrintWriter out;
 
@@ -190,7 +190,7 @@ public class queue {
     }
 
     public static void main(String[] args) {
-        new queue().run();
+        new Queue().run();
     }
 }
 

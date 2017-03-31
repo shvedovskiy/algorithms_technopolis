@@ -32,7 +32,7 @@ import java.io.*;
  *  Sample 3
  *  3
  */
-public class minMethod {
+public class MinMethod {
     FastScanner in;
     PrintWriter out;
 
@@ -111,6 +111,6 @@ public class minMethod {
     }
 
     public static void main(String[] args) {
-        new minMethod().run();
+        new MinMethod().run();
     }
 }

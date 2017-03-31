@@ -14,7 +14,7 @@ import java.io.*;
  * Выходные данные:
  *  3
  */
-public class superGCD {
+public class SuperGCD {
     FastScanner in;
     PrintWriter out;
 
@@ -81,7 +81,7 @@ public class superGCD {
     }
 
     public static void main(String[] args) {
-        new superGCD().run();
+        new SuperGCD().run();
     }
 }
 

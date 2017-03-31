@@ -21,7 +21,7 @@ import java.io.*;
  * Выходные данные:
  *  -102
  */
-public class postfix {
+public class Postfix {
     FastScanner in;
     PrintWriter out;
 
@@ -135,7 +135,7 @@ public class postfix {
     }
 
     public static void main(String[] args) {
-        new postfix().run();
+        new Postfix().run();
     }
 }
 

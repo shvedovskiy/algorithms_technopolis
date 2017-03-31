@@ -30,12 +30,12 @@ import java.io.*;
  *  100
  *  50
  */
-public class heap {
+public class Heap {
     FastScanner in;
     PrintWriter out;
 
     public void solve() throws IOException {
-        Heap h = new Heap();
+        HeapStructure h = new HeapStructure();
         int n = in.nextInt();
         for (int i = 0; i != n; ++i) {
             if (in.nextInt() == 0) {
@@ -57,12 +57,12 @@ public class heap {
         }
     }
 
-    private class Heap {
+    private class HeapStructure {
         private static final int DEFAULT_CAPACITY = 10;
         private long[] elems;
         private int size;
 
-        public Heap() {
+        public HeapStructure() {
             elems = new long[DEFAULT_CAPACITY];
             size = -1;
         }
@@ -199,7 +199,7 @@ public class heap {
     }
 
     public static void main(String[] args) {
-        new heap().run();
+        new Heap().run();
     }
 }
 

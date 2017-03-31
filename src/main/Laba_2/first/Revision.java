@@ -30,7 +30,7 @@ import java.io.*;
  *  Sample 2
  *  1 1
  */
-public class revision {
+public class Revision {
     FastScanner in;
     PrintWriter out;
 
@@ -99,7 +99,7 @@ public class revision {
     }
 
     public static void main(String[] args) {
-        new revision().run();
+        new Revision().run();
     }
 }
 

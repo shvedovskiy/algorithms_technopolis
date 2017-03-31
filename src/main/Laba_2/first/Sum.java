@@ -4,48 +4,40 @@ import java.util.*;
 import java.io.*;
 
 /**
- * Вам доверяется важная миссия проверки чисел на простоту. Не подведите галактику!
- * На вход подаётся одно число N (2 <= N <= 10^9).
- * Выведите True, если число воистину простое, и False, если число составное.
+ * Найти сумму двух чисел.
+ * Первая строка содержит количество тестов t (1 <= t <= 100). Каждый тест состоит из двух 16-битных целых чисел a и b.
+ * Для каждого теста вывести в отдельной строке сумму чисел a и b.
  *
  * Входные данные:
- *  Sample 1
- *  2
- *
- *  Sample 2
- *  10
+ *  3
+ *  2 3
+ *  17 -18 5
+ *  6
  *
  * Выходные данные:
- *  Sample 1
- *  True
- *
- *  Sample 2
- *  False
+ *  5
+ *  -1
+ *  11
  */
-public class isPrime {
+public class Sum {
     FastScanner in;
     PrintWriter out;
 
     public void solve() throws IOException {
-        long num = in.nextLong();
-        if (num <= 1) {
-            out.append("False");
-            return;
-        }
-        for (long i = 2; i * i <= num; ++i) {
-            if (num % i == 0) {
-                out.append("False");
-                return;
-            }
-        }
-        out.append("True");
+        int a = in.nextInt();
+        int b = in.nextInt();
+        Integer res = new Integer(a + b);
+        out.append("" + res + '\n');
     }
 
     public void run() {
         try {
             in = new FastScanner(new File("input.txt"));
             out = new PrintWriter(new File("output.txt"));
-            solve();
+            int tests = in.nextInt();
+            for (int i = 0; i != tests; ++i) {
+                solve();
+            }
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,12 +67,12 @@ public class isPrime {
             return st.nextToken();
         }
 
-        long nextLong() {
-            return Long.parseLong(next());
+        int nextInt() {
+            return Integer.parseInt(next());
         }
     }
 
     public static void main(String[] args) {
-        new isPrime().run();
+        new Sum().run();
     }
 }

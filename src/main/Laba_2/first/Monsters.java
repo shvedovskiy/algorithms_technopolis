@@ -31,7 +31,7 @@ import java.io.*;
  *  2
  *  0
  */
-public class monsters {
+public class Monsters {
     FastScanner in;
     PrintWriter out;
 
@@ -127,7 +127,7 @@ public class monsters {
     }
 
     public static void main(String[] args) {
-        new monsters().run();
+        new Monsters().run();
     }
 }
 

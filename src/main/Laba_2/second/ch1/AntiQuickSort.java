@@ -22,7 +22,7 @@ import java.io.*;
  * Выходные данные:
  *  1 3 2
  */
-public class antiQuickSort {
+public class AntiQuickSort {
     FastScanner in;
     PrintWriter out;
 
@@ -92,6 +92,6 @@ public class antiQuickSort {
     }
 
     public static void main(String[] args) {
-        new antiQuickSort().run();
+        new AntiQuickSort().run();
     }
 }

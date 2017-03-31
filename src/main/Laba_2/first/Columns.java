@@ -34,7 +34,7 @@ import java.io.*;
  *  NO
  *  YES
  */
-public class columns {
+public class Columns {
     FastScanner in;
     PrintWriter out;
 
@@ -104,7 +104,7 @@ public class columns {
     }
 
     public static void main(String[] args) {
-        new columns().run();
+        new Columns().run();
     }
 }
 

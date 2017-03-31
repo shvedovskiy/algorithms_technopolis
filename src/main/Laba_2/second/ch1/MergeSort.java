@@ -42,7 +42,7 @@ import java.io.*;
  *  7 2
  *  8 9
  */
-public class mergeSort {
+public class MergeSort {
     FastScanner in;
     PrintWriter out;
 
@@ -150,6 +150,6 @@ public class mergeSort {
     }
 
     public static void main(String[] args) {
-        new mergeSort().run();
+        new MergeSort().run();
     }
 }

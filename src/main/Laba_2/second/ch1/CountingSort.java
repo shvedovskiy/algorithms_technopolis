@@ -15,7 +15,7 @@ import java.io.*;
  * Выходные данные:
  *  1 2 3
  */
-public class countingSort {
+public class CountingSort {
 
     FastScanner in;
     PrintWriter out;
@@ -94,7 +94,7 @@ public class countingSort {
     }
 
     public static void main(String[] args) {
-        new countingSort().run();
+        new CountingSort().run();
     }
 }
 
